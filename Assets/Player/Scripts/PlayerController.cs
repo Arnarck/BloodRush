@@ -7,12 +7,12 @@ public class PlayerController : MonoBehaviour
 {
     Touch _touch;
     PlayerGravity _gravity;
-    PlayerMovement _movement;
     CameraFollower _camera;
+    PlayerMovement _movement;
 
     // Middle lane is always "transform.position.x == 0f"
     int _middleLane, _currentLane;
-    bool _isTouchEnabled = true;
+    bool _isTouchEnabled = true, _isVerticalInputLocked;
     float _xOffset, _yOffset;
 
     public int LaneAmount { get => laneAmount; }
@@ -20,10 +20,11 @@ public class PlayerController : MonoBehaviour
     public int StartingLane { get => startingLane; }
     public float LaneDistance { get => laneDistance; }
     public float CurrentPosition { get => (_currentLane - _middleLane) * laneDistance; }
+    public bool IsVerticalInputLocked { get => _isVerticalInputLocked; set => _isVerticalInputLocked = value; }
 
     [SerializeField] float laneDistance = 3f;
-    [SerializeField] [Range(1, 7)] int laneAmount = 3;
-    [SerializeField] [Range(0, 6)] int startingLane = 1;
+    [SerializeField][Range(1, 7)] int laneAmount = 3;
+    [SerializeField][Range(0, 6)] int startingLane = 1;
 
     void Awake()
     {
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     void ManageKeyboardInput()
     {
-        if (!_movement.IsDodging)
+        if (!_movement.IsDodging && !IsVerticalInputLocked)
         {
             ProcessJumpKey();
             ProcessSlideKey();
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void ProcessJumpKey()
     {
-        if (Input.GetKeyDown(KeyCode.W) && _gravity.IsGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && _gravity.IsGrounded)
         {
             _movement.CancelSlide();
             _gravity.ApplyJump();
@@ -72,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (_gravity.IsGrounded())
+            if (_gravity.IsGrounded)
             {
                 _movement.ApplySlide();
             }
@@ -108,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
         _touch = Input.GetTouch(0);
         _xOffset = _touch.deltaPosition.x;
-        _yOffset = _touch.deltaPosition.y; 
+        _yOffset = _touch.deltaPosition.y;
 
         switch (_touch.phase)
         {
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
             case TouchPhase.Moved:
                 ProcessDodgeInput();
 
-                if (!_movement.IsDodging)
+                if (!_movement.IsDodging || !IsVerticalInputLocked)
                 {
                     ProcessJumpInput();
                     ProcessSlideInput();
@@ -164,7 +165,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isTouchEnabled) return;
         if (IsMovingHorizontally()) return;
-        if (!_gravity.IsGrounded()) return;
+        if (!_gravity.IsGrounded) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
         _movement.ApplySlide();
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isTouchEnabled) return;
         if (IsMovingHorizontally()) return;
-        if (_gravity.IsGrounded()) return;
+        if (_gravity.IsGrounded) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
         _gravity.ApplyForcedFall();
@@ -205,7 +206,6 @@ public class PlayerController : MonoBehaviour
             nextPosition -= laneDistance;
         }
         _currentLane = desiredLane;
-        _camera.StartDodgeMovement();
         _movement.DodgeTo(nextPosition);
     }
 }

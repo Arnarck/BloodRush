@@ -5,7 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     PlayerGravity _gravity;
     Coroutine _dodgeRoutine, _slideRoutine, _autoSlideRoutine;
-    bool _isDodging, _isSliding, _isAutoSlideEnabled;
+
+    bool _isDodging, _isSliding, _isAutoSlideEnabled, _isDodgingToRight;
 
     public bool IsDodging { get => _isDodging; }
 
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void DodgeTo(float xPosition)
     {
+        if (_isDodging && _isDodgingToRight && xPosition > transform.position.x) return;
+        if (_isDodging && !_isDodgingToRight && xPosition < transform.position.x) return;
         if (_isDodging) StopCoroutine(_dodgeRoutine);
 
         _dodgeRoutine = StartCoroutine(MoveTo(xPosition));
@@ -82,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator AutoSlide()
     {
         _isAutoSlideEnabled = true;
-        while (!_gravity.IsGrounded())
+        while (!_gravity.IsGrounded)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -98,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
         float movementPercentage = 0f;
 
         _isDodging = true;
+        _isDodgingToRight = endPosition > startPosition ? true : false;
         while (movementPercentage < 1f)
         {
             float xPosition;

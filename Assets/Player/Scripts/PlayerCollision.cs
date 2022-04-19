@@ -3,12 +3,16 @@
 [RequireComponent(typeof(BerserkerBar))]
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField] GameObject bloodSplashVFX;
+    Fly _flyPowerup;
+    HigherJump _jumpPowerup;
     BerserkerBar _berserkerBar;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject bloodSplashVFX;
+
+    void Awake()
     {
+        _flyPowerup = GetComponent<Fly>();
+        _jumpPowerup = GetComponent<HigherJump>();
         _berserkerBar = GetComponent<BerserkerBar>();
     }
 
@@ -43,6 +47,8 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "Lethal":
+                _flyPowerup.Activate();
+                //_jumpPowerup.Activate();
                 // Kill player
                 // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
