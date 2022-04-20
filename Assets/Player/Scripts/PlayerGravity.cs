@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerGravity : MonoBehaviour
 {
     float _currentJumpForce;
-    bool _isGrounded, _isFlying;
+    bool _isGrounded, _isFlying, _isWallRunning;
 
     AudioClip _clip;
     Rigidbody _rigidBody;
@@ -15,6 +15,7 @@ public class PlayerGravity : MonoBehaviour
     public float ForwardSpeed { get => forwardSpeed; set => forwardSpeed = value; }
     public bool IsFlying { get => _isFlying; set => _isFlying = value; }
     public bool IsGrounded { get => _isGrounded; private set => _isGrounded = value; }
+    public bool IsWallRunning { get => _isWallRunning; set => _isWallRunning = value; }
 
     [Header("Sound Effects")]
     [SerializeField] AudioClip groundHitSFX;
@@ -56,7 +57,7 @@ public class PlayerGravity : MonoBehaviour
 
     void ProcessGravity()
     {
-        if (IsGrounded || IsFlying) return;
+        if (IsGrounded || IsFlying || IsWallRunning) return;
 
         _rigidBody.AddForce(Vector3.up * gravityForce * gravityScale, ForceMode.Acceleration);
     }
@@ -77,8 +78,6 @@ public class PlayerGravity : MonoBehaviour
 
     public void ApplyJump()
     {
-        if (!IsGrounded) return;
-
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
         _clip = groundHitSFX;
         StartCoroutine(PlaySoundOnGroundCheck());

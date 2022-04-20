@@ -4,11 +4,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     PlayerGravity _gravity;
-    Coroutine _dodgeRoutine, _slideRoutine, _autoSlideRoutine;
+    Coroutine _moveTo, _slideRoutine, _autoSlideRoutine;
 
     bool _isDodging, _isSliding, _isAutoSlideEnabled, _isDodgingToRight;
 
     public bool IsDodging { get => _isDodging; }
+    public bool IsSliding { get => _isSliding; }
+    public bool IsDodgingToRight { get => _isDodgingToRight; }
+    public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
 
     [SerializeField] GameObject forcedFallVFX;
     [SerializeField] ParticleSystem slideVFX;
@@ -27,11 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void DodgeTo(float xPosition)
     {
-        if (_isDodging && _isDodgingToRight && xPosition > transform.position.x) return;
-        if (_isDodging && !_isDodgingToRight && xPosition < transform.position.x) return;
-        if (_isDodging) StopCoroutine(_dodgeRoutine);
+        if (_isDodging) StopCoroutine(_moveTo);
 
-        _dodgeRoutine = StartCoroutine(MoveTo(xPosition));
+        _moveTo = StartCoroutine(MoveTo(xPosition));
     }
 
     public void ApplySlide()
