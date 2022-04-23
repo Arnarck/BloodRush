@@ -3,11 +3,16 @@
 [RequireComponent(typeof(BerserkerBar))]
 public class PlayerCollision : MonoBehaviour
 {
+    bool _isInvincible;
+
     Fly _flyPowerup;
     HigherJump _jumpPowerup;
     BerserkerBar _berserkerBar;
 
+    public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
+
     [SerializeField] GameObject bloodSplashVFX;
+    [SerializeField] SoundType hit;
 
     void Awake()
     {
@@ -32,10 +37,13 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "Obstacle":
+                if (IsInvincible) return;
+
                 Instantiate(bloodSplashVFX, transform.position, transform.rotation);
+                SoundManager.instance.PlaySound(hit);
                 if (_berserkerBar.CurrentValue == 0)
                 {
-                    Debug.Log("died");
+                    GameOver.Instance.Activate();
                 }
                 else
                 {
@@ -53,8 +61,17 @@ public class PlayerCollision : MonoBehaviour
                 // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
 
+            case "Finish":
+                _jumpPowerup.Activate();
+                break;
+
             default:
                 break;
         }
+    }
+
+    public void ToggleInvincibility()
+    {
+        IsInvincible = !_isInvincible;
     }
 }

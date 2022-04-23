@@ -15,17 +15,13 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] GameObject forcedFallVFX;
     [SerializeField] ParticleSystem slideVFX;
+    [SerializeField] SoundType slide;
     [SerializeField] float dodgeSpeed = 5f;
     [SerializeField] float slideTime = 2f;
 
     void Awake()
     {
         _gravity = GetComponent<PlayerGravity>();
-    }
-
-    void Start()
-    {
-        slideVFX.Stop();
     }
 
     public void DodgeTo(float xPosition)
@@ -48,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
         StopCoroutine(_slideRoutine);
         slideVFX.Stop();
-        slideVFX.GetComponent<AudioSource>().Stop();
+        SoundManager.instance.StopSound(slide);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -71,14 +67,14 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Slide()
     {
         slideVFX.Play();
-        slideVFX.GetComponent<AudioSource>().Play();
+        SoundManager.instance.PlaySound(slide);
         _isSliding = true;
         transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
         slideVFX.Stop();
-        slideVFX.GetComponent<AudioSource>().Stop();
+        SoundManager.instance.StopSound(slide);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }

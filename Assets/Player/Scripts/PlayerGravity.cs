@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerGravity : MonoBehaviour
 {
     float _currentJumpForce;
-    bool _isGrounded, _isFlying, _isWallRunning;
+    bool _isGrounded = true, _isForcedFalling, _isFlying, _isWallRunning;
 
     AudioClip _clip;
     Rigidbody _rigidBody;
@@ -16,10 +16,11 @@ public class PlayerGravity : MonoBehaviour
     public bool IsFlying { get => _isFlying; set => _isFlying = value; }
     public bool IsGrounded { get => _isGrounded; private set => _isGrounded = value; }
     public bool IsWallRunning { get => _isWallRunning; set => _isWallRunning = value; }
+    public bool IsForcedFalling { get => _isForcedFalling; private set => _isForcedFalling = value; }
 
     [Header("Sound Effects")]
-    [SerializeField] AudioClip groundHitSFX;
-    [SerializeField] AudioClip forcedFallSFX;
+    [SerializeField] SoundType groundHit;
+    [SerializeField] SoundType forcedFall;
 
     [Header("Gravity Settings")]
     [SerializeField] LayerMask laneLayerMask;
@@ -45,9 +46,12 @@ public class PlayerGravity : MonoBehaviour
 
     void FixedUpdate()
     {
-        GroundCheck();
-        ProcessGravity();
-        ProcessForwardMovement();
+        if (!PauseGame.Instance.IsGamePaused)
+        {
+            GroundCheck();
+            ProcessGravity();
+            ProcessForwardMovement();
+        }
     }
 
     void ProcessForwardMovement()
@@ -65,7 +69,7 @@ public class PlayerGravity : MonoBehaviour
     public void GroundCheck()
     {
         Color rayColor;
-        bool hasFoundColliders;
+        bool hasFoundColliders, previousIsGrounded = IsGrounded;
         float extraHeight = .01f;
 
         hasFoundColliders = Physics.Raycast(_collider.bounds.center, Vector3.down, _collider.bounds.extents.y + extraHeight, laneLayerMask);
@@ -74,23 +78,27 @@ public class PlayerGravity : MonoBehaviour
         Debug.DrawRay(_collider.bounds.center, Vector3.down * (_collider.bounds.extents.y + extraHeight), rayColor);
 
         IsGrounded = hasFoundColliders;
+
+        if (IsGrounded && previousIsGrounded == false)
+        {
+            if (IsForcedFalling)
+            {
+                SoundManager.instance.PlaySound(forcedFall);
+            }
+            else
+            {
+                SoundManager.instance.PlaySound(groundHit);
+            }
+        }
+
+        if (IsGrounded) IsForcedFalling = false;
     }
 
     public void ApplyJump()
     {
-        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
-        _clip = groundHitSFX;
-        StartCoroutine(PlaySoundOnGroundCheck());
-    }
+        if (!IsGrounded) return;
 
-    IEnumerator PlaySoundOnGroundCheck()
-    {
-        yield return new WaitForSeconds(.1f);
-        while (!IsGrounded)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        GetComponent<AudioSource>().PlayOneShot(_clip);
+        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
     }
 
     public void ApplyForcedFall()
@@ -98,7 +106,7 @@ public class PlayerGravity : MonoBehaviour
         // Resets the Y velocity in order to immediately starts falling
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, 0f, _rigidBody.velocity.z);
         _rigidBody.velocity += Vector3.up * forcedFallForce;
-        _clip = forcedFallSFX;
+        IsForcedFalling = true;
     }
 
     public void SetJumpForce(float force)

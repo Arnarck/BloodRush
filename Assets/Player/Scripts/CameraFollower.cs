@@ -38,13 +38,16 @@ public class CameraFollower : MonoBehaviour
 
     void LateUpdate()
     {
-        _currentPos = _player.position;
+        if (!PauseGame.Instance.IsGamePaused)
+        {
+            _currentPos = _player.position;
 
-        ProcessHorizontalMovement();
-        ProcessVerticalMovement();
-        transform.position = new Vector3(_xOffset, _yOffset, _player.position.z);
+            ProcessHorizontalMovement();
+            ProcessVerticalMovement();
+            transform.position = new Vector3(_xOffset, _yOffset, _player.position.z);
 
-        _previousPos = _currentPos;
+            _previousPos = _currentPos;
+        }
     }
 
     public void SetStartPosition(float xPlayerPosition)
