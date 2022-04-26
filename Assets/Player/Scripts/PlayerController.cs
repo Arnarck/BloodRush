@@ -1,32 +1,37 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(WallRun))]
 [RequireComponent(typeof(PlayerGravity))]
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
 {
     Touch _touch;
+    WallRun _wallRun;
     PlayerGravity _gravity;
-    PlayerMovement _movement;
     CameraFollower _camera;
+    PlayerMovement _movement;
 
     // Middle lane is always "transform.position.x == 0f"
     int _middleLane, _currentLane;
-    bool _isTouchEnabled = true;
+    bool _isTouchEnabled = true, _isVerticalInputLocked;
     float _xOffset, _yOffset;
 
     public int LaneAmount { get => laneAmount; }
     public int MiddleLane { get => _middleLane; }
     public int StartingLane { get => startingLane; }
     public float LaneDistance { get => laneDistance; }
+    public int CurrentLane { get => _currentLane; private set => _currentLane = value; }
     public float CurrentPosition { get => (_currentLane - _middleLane) * laneDistance; }
+    public bool IsVerticalInputLocked { get => _isVerticalInputLocked; set => _isVerticalInputLocked = value; }
 
     [SerializeField] float laneDistance = 3f;
-    [SerializeField] [Range(1, 7)] int laneAmount = 3;
-    [SerializeField] [Range(0, 6)] int startingLane = 1;
+    [SerializeField][Range(1, 7)] int laneAmount = 3;
+    [SerializeField][Range(0, 6)] int startingLane = 1;
 
     void Awake()
     {
+        _wallRun = GetComponent<WallRun>();
         _gravity = GetComponent<PlayerGravity>();
         _movement = GetComponent<PlayerMovement>();
         _camera = FindObjectOfType<CameraFollower>();
@@ -51,17 +56,51 @@ public class PlayerController : MonoBehaviour
 
     void ManageKeyboardInput()
     {
-        if (!_movement.IsDodging)
+        ProcessDodgeKey();
+        ProcessWallRunKey();
+
+        if (!_movement.IsDodging && !IsVerticalInputLocked)
         {
             ProcessJumpKey();
             ProcessSlideKey();
         }
-        ProcessDodgeKey();
+    }
+
+    void ProcessDodgeKey()
+    {
+        int desiredLane = _currentLane;
+
+        if (_wallRun.IsActivated) return;
+        if (!_gravity.IsGrounded && !_gravity.IsFlying) return;
+
+        if (Input.GetKeyDown(KeyCode.A)) desiredLane--;
+        else if (Input.GetKeyDown(KeyCode.D)) desiredLane++;
+        else return;
+
+        _movement.CancelAutoSlide();
+        _movement.CancelSlide();
+        SwitchLane(desiredLane);
+    }
+
+    void ProcessWallRunKey()
+    {
+        bool isMovingToLeftWall = CurrentLane == 0 && Input.GetKeyDown(KeyCode.A);
+        bool isMovingToRightWall = CurrentLane == LaneAmount - 1 && Input.GetKeyDown(KeyCode.D);
+
+        if (_movement.IsDodging) return;
+        if (_gravity.IsFlying) return;
+        if (!_gravity.IsGrounded) return;
+
+        if (isMovingToRightWall || isMovingToLeftWall) _movement.CancelSlide();
+
+        if (isMovingToLeftWall) _wallRun.Activate(-1);
+        else if (isMovingToRightWall) _wallRun.Activate(1);
+
     }
 
     void ProcessJumpKey()
     {
-        if (Input.GetKeyDown(KeyCode.W) && _gravity.IsGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && _gravity.IsGrounded)
         {
             _movement.CancelSlide();
             _gravity.ApplyJump();
@@ -72,33 +111,20 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (_gravity.IsGrounded())
+            // Slide
+            if (_gravity.IsGrounded && !_wallRun.IsActivated)
             {
                 _movement.ApplySlide();
             }
-            else
+            // Forced Fall
+            else if (!_gravity.IsGrounded)
             {
                 _gravity.ApplyForcedFall();
                 _movement.ApplyAutoSlide();
+                _wallRun.Deactivate();
             }
         }
     }
-
-    void ProcessDodgeKey()
-    {
-        int desiredLane = _currentLane;
-
-        if (Input.GetKeyDown(KeyCode.A)) desiredLane--;
-        if (Input.GetKeyDown(KeyCode.D)) desiredLane++;
-        if (desiredLane == _currentLane) return;
-
-        _movement.CancelAutoSlide();
-        _movement.CancelSlide();
-
-        desiredLane = Mathf.Clamp(desiredLane, 0, laneAmount - 1);
-        SwitchLane(desiredLane);
-    }
-
 
     // ------ TOUCH INPUT ------
 
@@ -108,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
         _touch = Input.GetTouch(0);
         _xOffset = _touch.deltaPosition.x;
-        _yOffset = _touch.deltaPosition.y; 
+        _yOffset = _touch.deltaPosition.y;
 
         switch (_touch.phase)
         {
@@ -118,8 +144,9 @@ public class PlayerController : MonoBehaviour
 
             case TouchPhase.Moved:
                 ProcessDodgeInput();
+                ProcessWallRunInput();
 
-                if (!_movement.IsDodging)
+                if (!_movement.IsDodging || !IsVerticalInputLocked)
                 {
                     ProcessJumpInput();
                     ProcessSlideInput();
@@ -139,14 +166,30 @@ public class PlayerController : MonoBehaviour
 
         if (!_isTouchEnabled) return;
         if (!IsMovingHorizontally()) return;
+        if (_wallRun.IsActivated) return;
+        if (!_gravity.IsGrounded && !_gravity.IsFlying) return;
 
         desiredLane = _xOffset >= Mathf.Epsilon ? desiredLane + 1 : desiredLane - 1;
-        desiredLane = Mathf.Clamp(desiredLane, 0, laneAmount - 1);
 
         _movement.CancelSlide();
         _movement.CancelAutoSlide();
         SwitchLane(desiredLane);
         _isTouchEnabled = false;
+    }
+
+    void ProcessWallRunInput()
+    {
+        bool isMovingToLeftWall = CurrentLane == 0 && _xOffset <= -Mathf.Epsilon;
+        bool isMovingToRightWall = CurrentLane == LaneAmount - 1 && _xOffset >= Mathf.Epsilon;
+
+        if (_movement.IsDodging) return;
+        if (_gravity.IsFlying) return;
+        if (!_gravity.IsGrounded) return;
+
+        if (isMovingToRightWall || isMovingToLeftWall) _movement.CancelSlide();
+
+        if (isMovingToLeftWall) _wallRun.Activate(-1);
+        else if (isMovingToRightWall) _wallRun.Activate(1);
     }
 
     void ProcessJumpInput()
@@ -164,7 +207,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isTouchEnabled) return;
         if (IsMovingHorizontally()) return;
-        if (!_gravity.IsGrounded()) return;
+        if (!_gravity.IsGrounded) return;
+        if (_wallRun.IsActivated) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
         _movement.ApplySlide();
@@ -175,11 +219,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isTouchEnabled) return;
         if (IsMovingHorizontally()) return;
-        if (_gravity.IsGrounded()) return;
+        if (_gravity.IsGrounded) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
         _gravity.ApplyForcedFall();
         _movement.ApplyAutoSlide();
+        _wallRun.Deactivate();
+
         _isTouchEnabled = false;
     }
 
@@ -195,17 +241,16 @@ public class PlayerController : MonoBehaviour
     void SwitchLane(int desiredLane)
     {
         float nextPosition = CurrentPosition;
+        desiredLane = Mathf.Clamp(desiredLane, 0, laneAmount - 1);
 
-        if (desiredLane > _currentLane)
-        {
-            nextPosition += laneDistance;
-        }
-        else if (desiredLane < _currentLane)
-        {
-            nextPosition -= laneDistance;
-        }
-        _currentLane = desiredLane;
-        _camera.StartDodgeMovement();
+        if (_movement.IsDodging && _movement.IsDodgingToRight && CurrentLane < desiredLane) return;
+        if (_movement.IsDodging && !_movement.IsDodgingToRight && CurrentLane > desiredLane) return;
+
+        if (desiredLane > _currentLane) nextPosition += laneDistance;
+        else if (desiredLane < _currentLane) nextPosition -= laneDistance;
+        else return;
+
+        CurrentLane = desiredLane;
         _movement.DodgeTo(nextPosition);
     }
 }

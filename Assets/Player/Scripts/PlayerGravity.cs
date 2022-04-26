@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof(Rigidbody))]
-[RequireComponent (typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerGravity : MonoBehaviour
 {
+    float _currentJumpForce;
+    bool _isGrounded, _isFlying, _isWallRunning;
+
     AudioClip _clip;
     Rigidbody _rigidBody;
     CapsuleCollider _collider;
+
+    public float ForwardSpeed { get => forwardSpeed; set => forwardSpeed = value; }
+    public bool IsFlying { get => _isFlying; set => _isFlying = value; }
+    public bool IsGrounded { get => _isGrounded; private set => _isGrounded = value; }
+    public bool IsWallRunning { get => _isWallRunning; set => _isWallRunning = value; }
 
     [Header("Sound Effects")]
     [SerializeField] AudioClip groundHitSFX;
@@ -31,11 +39,13 @@ public class PlayerGravity : MonoBehaviour
 
     void Start()
     {
+        ResetJumpForce();
         _rigidBody.useGravity = false;
     }
 
     void FixedUpdate()
     {
+        GroundCheck();
         ProcessGravity();
         ProcessForwardMovement();
     }
@@ -47,21 +57,12 @@ public class PlayerGravity : MonoBehaviour
 
     void ProcessGravity()
     {
-        if (IsGrounded()) return;
+        if (IsGrounded || IsFlying || IsWallRunning) return;
 
         _rigidBody.AddForce(Vector3.up * gravityForce * gravityScale, ForceMode.Acceleration);
     }
 
-    public void ApplyJump()
-    {
-        if (!IsGrounded()) return;
-
-        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, jumpForce, _rigidBody.velocity.z);
-        _clip = groundHitSFX;
-        StartCoroutine(PlaySoundOnGroundCheck());
-    }
-
-    public bool IsGrounded()
+    public void GroundCheck()
     {
         Color rayColor;
         bool hasFoundColliders;
@@ -72,7 +73,24 @@ public class PlayerGravity : MonoBehaviour
         rayColor = hasFoundColliders ? Color.green : Color.red;
         Debug.DrawRay(_collider.bounds.center, Vector3.down * (_collider.bounds.extents.y + extraHeight), rayColor);
 
-        return hasFoundColliders;
+        IsGrounded = hasFoundColliders;
+    }
+
+    public void ApplyJump()
+    {
+        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
+        _clip = groundHitSFX;
+        StartCoroutine(PlaySoundOnGroundCheck());
+    }
+
+    IEnumerator PlaySoundOnGroundCheck()
+    {
+        yield return new WaitForSeconds(.1f);
+        while (!IsGrounded)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        GetComponent<AudioSource>().PlayOneShot(_clip);
     }
 
     public void ApplyForcedFall()
@@ -83,14 +101,13 @@ public class PlayerGravity : MonoBehaviour
         _clip = forcedFallSFX;
     }
 
-    // Gambiarra
-    IEnumerator PlaySoundOnGroundCheck()
+    public void SetJumpForce(float force)
     {
-        yield return new WaitForSeconds(.1f);
-        while (!IsGrounded())
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        GetComponent<AudioSource>().PlayOneShot(_clip);
+        _currentJumpForce = force;
+    }
+
+    public void ResetJumpForce()
+    {
+        _currentJumpForce = jumpForce;
     }
 }

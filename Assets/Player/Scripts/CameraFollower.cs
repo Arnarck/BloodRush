@@ -1,68 +1,122 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class CameraFollower : MonoBehaviour
 {
-    float xStart, xEnd, xMovement;
-    Vector3 currentPos, previousPos;
+    bool _isFallingAfterFly, _isFlying;
+    float _xOffset, _yOffset, _currentJumpOffset;
+    Vector3 _startPos, _currentPos, _previousPos;
 
-    PlayerController _player;
+    Transform _player;
+    PlayerGravity _gravity;
 
-    [Header("Dodge Settings")]
-    [SerializeField] float dodgeSpeed = 5f;
-    [SerializeField] [Range(0f, 1f)]float dodgeOffset;
+    public bool IsFlying { get => _isFlying; set => _isFlying = value; }
+    public bool IsFallingAfterFly { get => _isFallingAfterFly; set => _isFallingAfterFly = value; }
 
-    [Header("Jump Settings")]
-    [SerializeField] float jumpPosition = 4f;
+    [Header("Basic Movement Settings")]
+    [SerializeField][Range(0f, 1f)] float dodgeOffset;
     [SerializeField][Range(0f, 1f)] float jumpOffset;
-
-    [Header("Dash Settings")]
-    [SerializeField] float dashPosition = 2f;
 
     void Awake()
     {
-        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        _player = GameObject.FindWithTag("Player").transform;
+
+        _gravity = _player.GetComponent<PlayerGravity>();
     }
 
     void Start()
     {
-        currentPos = _player.transform.position;
-        previousPos = _player.transform.position;
+        _startPos = transform.position;
+        _currentPos = _player.position;
+        _previousPos = _player.position;
+
+        _xOffset = _startPos.x;
+        _yOffset = _startPos.y;
+
+        ResetJumpOffset();
     }
 
     void LateUpdate()
     {
-        currentPos = _player.transform.position;
-        float x = ProcessDodgeMovement();
-        float y = ProcessJumpMovement();
-        transform.position = new Vector3(x, y, _player.transform.position.z);
-        previousPos = _player.transform.position;
+        _currentPos = _player.position;
+
+        ProcessHorizontalMovement();
+        ProcessVerticalMovement();
+        transform.position = new Vector3(_xOffset, _yOffset, _player.position.z);
+
+        _previousPos = _currentPos;
     }
 
-    float ProcessDodgeMovement()
+    public void SetStartPosition(float xPlayerPosition)
     {
-        xMovement += dodgeSpeed * Time.deltaTime;
-        return Mathf.Lerp(xStart, xEnd, xMovement);
+        float distanceToMove = xPlayerPosition * dodgeOffset;
+
+        transform.position = new Vector3(distanceToMove, transform.position.y, _player.position.z);
     }
 
-    float ProcessJumpMovement()
+    void ProcessHorizontalMovement()
     {
-        //if (FindObjectOfType<PlayerGravity>().IsGrounded()) return yPivot;
-
-        float offset = currentPos.y - previousPos.y;
-        return transform.position.y + (offset * jumpOffset);
+        float rawOffset = _currentPos.x - _previousPos.x;
+        _xOffset = transform.position.x + (rawOffset * dodgeOffset);
     }
 
-    public void SetStartPosition(float xPosition)
+    void ProcessVerticalMovement()
     {
-        float distanceToMove = xPosition * dodgeOffset;
+        if (IsFlying)
+        {
+            _yOffset = transform.position.y;
+            return;
+        }
 
-        transform.position = new Vector3(distanceToMove, transform.position.y, _player.transform.position.z);
+        float rawOffset = _currentPos.y - _previousPos.y;
+
+        if (_gravity.IsGrounded)
+        {
+            _yOffset = _startPos.y;
+            return;
+        }
+
+        if (IsFallingAfterFly)
+        {
+            _yOffset = _player.position.y + 2.1f;
+        }
+        else
+        {
+            _yOffset = transform.position.y + (rawOffset * _currentJumpOffset);
+        }
     }
 
-    public void StartDodgeMovement()
+    public void TravelTo(float yPosition, float speed)
     {
-        xMovement = 0f;
-        xStart = transform.position.x;
-        xEnd = _player.CurrentPosition * dodgeOffset;
+        float flyPosition = yPosition + 2.1f;
+        StartCoroutine(FlyTo(flyPosition, speed));
+    }
+
+    IEnumerator FlyTo(float yEnd, float flySpeed)
+    {
+        float yStart = transform.position.y;
+        float movementPercentage = 0f;
+
+        while (movementPercentage < 1f)
+        {
+            float yPosition;
+            float movementThisFrame = Time.deltaTime * flySpeed;
+
+            movementPercentage += movementThisFrame;
+            yPosition = Mathf.Lerp(yStart, yEnd, movementPercentage);
+            transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public void SetJumpOffset(float offset)
+    {
+        _currentJumpOffset = offset;
+    }
+
+    public void ResetJumpOffset()
+    {
+        _currentJumpOffset = jumpOffset;
     }
 }
