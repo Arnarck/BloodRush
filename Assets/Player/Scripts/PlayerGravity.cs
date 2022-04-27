@@ -97,7 +97,7 @@ public class PlayerGravity : MonoBehaviour
     public void ApplyJump()
     {
         if (!IsGrounded) return;
-
+        Debug.Log("pulei");
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
     }
 
