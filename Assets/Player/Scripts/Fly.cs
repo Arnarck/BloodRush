@@ -45,6 +45,7 @@ public class Fly : Powerup
         IsActivated = true;
         _camera.IsFlying = true;
         _gravity.IsFlying = true;
+        _gravity.IsForcedFalling = false;
         _controller.IsVerticalInputLocked = true;
 
         StopPlayerMovement();

@@ -11,8 +11,10 @@ public class PlayerCollision : MonoBehaviour
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
 
-    [SerializeField] GameObject bloodSplashVFX;
-    [SerializeField] SoundType hit;
+    
+    [SerializeField] SoundType hitSFX;
+    [SerializeField] ParticleType hitVFX;
+    [SerializeField] ParticleType powerupCollectedVFX;
 
     void Awake()
     {
@@ -39,8 +41,8 @@ public class PlayerCollision : MonoBehaviour
             case "Obstacle":
                 if (IsInvincible) return;
 
-                Instantiate(bloodSplashVFX, transform.position, transform.rotation);
-                SoundManager.instance.PlaySound(hit);
+                ParticleManager.Play(hitVFX);
+                SoundManager.instance.PlaySound(hitSFX);
                 if (_berserkerBar.CurrentValue == 0)
                 {
                     GameOver.Instance.Activate();
@@ -56,6 +58,7 @@ public class PlayerCollision : MonoBehaviour
 
             case "Lethal":
                 _flyPowerup.Activate();
+                ParticleManager.Play(powerupCollectedVFX);
                 //_jumpPowerup.Activate();
                 // Kill player
                 // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)

@@ -16,11 +16,12 @@ public class PlayerGravity : MonoBehaviour
     public bool IsFlying { get => _isFlying; set => _isFlying = value; }
     public bool IsGrounded { get => _isGrounded; private set => _isGrounded = value; }
     public bool IsWallRunning { get => _isWallRunning; set => _isWallRunning = value; }
-    public bool IsForcedFalling { get => _isForcedFalling; private set => _isForcedFalling = value; }
+    public bool IsForcedFalling { get => _isForcedFalling; set => _isForcedFalling = value; }
 
-    [Header("Sound Effects")]
-    [SerializeField] SoundType groundHit;
-    [SerializeField] SoundType forcedFall;
+    [Header("Effects")]
+    [SerializeField] SoundType groundHitSFX;
+    [SerializeField] SoundType forcedFallSFX;
+    [SerializeField] ParticleType forcedFallVFX;
 
     [Header("Gravity Settings")]
     [SerializeField] LayerMask laneLayerMask;
@@ -83,11 +84,13 @@ public class PlayerGravity : MonoBehaviour
         {
             if (IsForcedFalling)
             {
-                SoundManager.instance.PlaySound(forcedFall);
+                ParticleManager.Play(forcedFallVFX);
+                SoundManager.instance.PlaySound(forcedFallSFX);
+
             }
             else
             {
-                SoundManager.instance.PlaySound(groundHit);
+                SoundManager.instance.PlaySound(groundHitSFX);
             }
         }
 
@@ -97,7 +100,7 @@ public class PlayerGravity : MonoBehaviour
     public void ApplyJump()
     {
         if (!IsGrounded) return;
-        Debug.Log("pulei");
+
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
     }
 

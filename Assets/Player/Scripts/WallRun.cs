@@ -5,7 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class WallRun : MonoBehaviour
 {
+    ParticleType _currentSparksVFX;
     bool _isActivated, _isTravelling;
+    int _currentWallDirection;
 
     PlayerGravity _gravity;
     CapsuleCollider _collider;
@@ -13,8 +15,12 @@ public class WallRun : MonoBehaviour
     public bool IsActivated { get => _isActivated; private set => _isActivated = value; }
     public bool IsTravelling { get => _isTravelling; private set => _isTravelling = value; }
 
-    [SerializeField] float yWallRunPosition;
+    [Header("Effects")]
+    [SerializeField] ParticleType LeftSparksVFX;
+    [SerializeField] ParticleType RightSparksVFX;
+    [Header("Wall Run Settings")]
     [SerializeField] LayerMask wallrunLayerMask;
+    [SerializeField] float yWallRunPosition;
     [SerializeField] float rayOffset = 1f;
     [SerializeField] float lifeTime = 5f;
     [SerializeField] float travelSpeed = 5f;
@@ -27,15 +33,16 @@ public class WallRun : MonoBehaviour
 
     public void Activate(int wallDirection)
     {
+        // Normalize "wallDirection" value
         wallDirection = wallDirection / Mathf.Abs(wallDirection);
 
         if (IsActivated) return;
         if (!IsWallExists(wallDirection)) return;
 
-        IsActivated = true;
-        _gravity.IsWallRunning = true;
-        transform.GetChild(0).transform.rotation = Quaternion.Euler(0f, 0f, 15f * wallDirection);
+        _currentSparksVFX = wallDirection > 0 ? RightSparksVFX : LeftSparksVFX;
+        _currentWallDirection = wallDirection;
 
+        SetActiveState(true);
         StartCoroutine(TravelTo(yWallRunPosition));
         StartCoroutine(CountdownToDeactivate());
         StartCoroutine(WallCheck(wallDirection));
@@ -100,8 +107,23 @@ public class WallRun : MonoBehaviour
     {
         StopAllCoroutines();
 
-        IsActivated = false;
-        _gravity.IsWallRunning = false;
-        transform.GetChild(0).transform.rotation = Quaternion.identity;
+        SetActiveState(false);
+    }
+
+    public void SetActiveState(bool isActivated)
+    {
+        IsActivated = isActivated;
+        _gravity.IsWallRunning = isActivated;
+
+        if (isActivated)
+        {
+            transform.GetChild(0).transform.rotation = Quaternion.Euler(0f, 0f, 15f * _currentWallDirection);
+            ParticleManager.Play(_currentSparksVFX);
+        }
+        else
+        {
+            transform.GetChild(0).transform.rotation = Quaternion.identity;
+            ParticleManager.Stop(_currentSparksVFX);
+        }
     }
 }

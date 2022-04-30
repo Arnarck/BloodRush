@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 
 [RequireComponent(typeof(SoundPool))]
-[RequireComponent(typeof(GameSounds))]
 public class SoundManager: MonoBehaviour
 {
     SoundPool _soundPool;
@@ -29,7 +28,6 @@ public class SoundManager: MonoBehaviour
             source = _soundPool.RemoveFromPool();
             source.clip = _soundPool.GetAudioClip(sound);
         }
-        if (PauseGame.Instance.IsGamePaused && sound == SoundType.PlayerSlide) Debug.Log("yo");
 
         source.Play();
         if (PauseGame.Instance.IsGamePaused) source.Pause();

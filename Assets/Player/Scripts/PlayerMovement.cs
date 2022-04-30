@@ -13,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDodgingToRight { get => _isDodgingToRight; }
     public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
 
-    [SerializeField] GameObject forcedFallVFX;
-    [SerializeField] ParticleSystem slideVFX;
-    [SerializeField] SoundType slide;
+    [Header("Effects")]
+    [SerializeField] SoundType slideSFX;
+    [SerializeField] ParticleType slideVFX;
+    [Header("Movement Settings")]
     [SerializeField] float dodgeSpeed = 5f;
     [SerializeField] float slideTime = 2f;
 
@@ -43,8 +44,8 @@ public class PlayerMovement : MonoBehaviour
         if (!_isSliding) return;
 
         StopCoroutine(_slideRoutine);
-        slideVFX.Stop();
-        SoundManager.instance.StopSound(slide);
+        ParticleManager.Stop(slideVFX);
+        SoundManager.instance.StopSound(slideSFX);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -66,15 +67,15 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Slide()
     {
-        slideVFX.Play();
-        SoundManager.instance.PlaySound(slide);
+        ParticleManager.Play(slideVFX);
+        SoundManager.instance.PlaySound(slideSFX);
         _isSliding = true;
         transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
-        slideVFX.Stop();
-        SoundManager.instance.StopSound(slide);
+        ParticleManager.Stop(slideVFX);
+        SoundManager.instance.StopSound(slideSFX);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -88,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
         }
         _isAutoSlideEnabled = false;
 
-        Instantiate(forcedFallVFX, new Vector3(transform.position.x, 0f, transform.position.z), transform.rotation);
         _slideRoutine = StartCoroutine(Slide());
     }
 
