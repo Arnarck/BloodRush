@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
                 ProcessDodgeInput();
                 ProcessWallRunInput();
 
-                if (!_movement.IsDodging || !IsVerticalInputLocked)
+                if (!_movement.IsDodging && !IsVerticalInputLocked)
                 {
                     ProcessJumpInput();
                     ProcessSlideInput();
