@@ -14,6 +14,7 @@ public class PlayerCollision : MonoBehaviour
     
     [SerializeField] SoundType hitSFX;
     [SerializeField] ParticleType hitVFX;
+    [SerializeField] ParticleType collectableVFX;
     [SerializeField] ParticleType powerupCollectedVFX;
 
     void Awake()
@@ -32,9 +33,10 @@ public class PlayerCollision : MonoBehaviour
     {
         switch (other)
         {
-            case "Coin":
+            case "Collectable":
                 // Increase coin count
                 // Coins must have a property for how much they fill the berserker bar
+                ParticleManager.Play(collectableVFX);
                 _berserkerBar.ModifyCurrentValue(1);
                 break;
 
@@ -57,15 +59,23 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "Lethal":
-                _flyPowerup.Activate();
-                ParticleManager.Play(powerupCollectedVFX);
-                //_jumpPowerup.Activate();
                 // Kill player
                 // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
 
-            case "Finish":
+            case "Fly":
+                _flyPowerup.Activate();
+                ParticleManager.Play(powerupCollectedVFX);
+                break;
+
+            case "ScoreMultiplier":
+                // Active score multiplier
+                ParticleManager.Play(powerupCollectedVFX);
+                break;
+
+            case "HigherJump":
                 _jumpPowerup.Activate();
+                ParticleManager.Play(powerupCollectedVFX);
                 break;
 
             default:

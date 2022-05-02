@@ -14,6 +14,7 @@ public class Fly : Powerup
 
     public bool IsTravelling { get => _isTravelling; set => _isTravelling = value; }
 
+    [SerializeField] ParticleType batTransformationVFX;
     [SerializeField] float cameraSpeed = 5f;
     [SerializeField] float flyPosition = 6f;
     [SerializeField] float travelSpeed = 5f;
@@ -42,6 +43,7 @@ public class Fly : Powerup
             _camera.IsFallingAfterFly = false;
         }
 
+        ParticleManager.Play(batTransformationVFX);
         IsActivated = true;
         _camera.IsFlying = true;
         _gravity.IsFlying = true;

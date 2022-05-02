@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Obstacle
   - Lethal
+  - Fly
+  - HigherJump
+  - ScoreMultiplier
+  - Collectable
   layers:
   - Default
   - TransparentFX
