@@ -4,8 +4,8 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour
 {
     bool _isFallingAfterFly, _isFlying;
-    float _xOffset, _yOffset, _currentJumpOffset;
-    Vector3 _startPos, _currentPos, _previousPos;
+    float _yOffset, _currentJumpOffset;
+    Vector3 _startPos, _playerCurrentPos, _playerPreviousPos;
 
     Transform _player;
     PlayerGravity _gravity;
@@ -27,24 +27,27 @@ public class CameraFollower : MonoBehaviour
     void Start()
     {
         _startPos = transform.position;
-        _currentPos = _player.position;
-        _previousPos = _player.position;
-
-        _xOffset = _startPos.x;
-        _yOffset = _startPos.y;
+        _playerCurrentPos = _player.position;
+        _playerPreviousPos = _player.position;
+        _yOffset = transform.position.y - _player.position.y;
 
         ResetJumpOffset();
     }
 
     void LateUpdate()
     {
-        _currentPos = _player.position;
+        if (!PauseGame.Instance.IsGamePaused)
+        {
+            float xThisFrame, yThisFrame;
 
-        ProcessHorizontalMovement();
-        ProcessVerticalMovement();
-        transform.position = new Vector3(_xOffset, _yOffset, _player.position.z);
+            _playerCurrentPos = _player.position;
+            xThisFrame = ProcessHorizontalMovement();
+            yThisFrame = ProcessVerticalMovement();
 
-        _previousPos = _currentPos;
+            transform.position = new Vector3(xThisFrame, yThisFrame, _player.position.z);
+
+            _playerPreviousPos = _playerCurrentPos;
+        }
     }
 
     public void SetStartPosition(float xPlayerPosition)
@@ -54,41 +57,27 @@ public class CameraFollower : MonoBehaviour
         transform.position = new Vector3(distanceToMove, transform.position.y, _player.position.z);
     }
 
-    void ProcessHorizontalMovement()
+    float ProcessHorizontalMovement()
     {
-        float rawOffset = _currentPos.x - _previousPos.x;
-        _xOffset = transform.position.x + (rawOffset * dodgeOffset);
+        float rawOffset = _playerCurrentPos.x - _playerPreviousPos.x;
+        return transform.position.x + (rawOffset * dodgeOffset);
     }
 
-    void ProcessVerticalMovement()
+    float ProcessVerticalMovement()
     {
-        if (IsFlying)
-        {
-            _yOffset = transform.position.y;
-            return;
-        }
+        float rawOffset = _playerCurrentPos.y - _playerPreviousPos.y;
 
-        float rawOffset = _currentPos.y - _previousPos.y;
+        if (IsFlying) return transform.position.y;
 
-        if (_gravity.IsGrounded)
-        {
-            _yOffset = _startPos.y;
-            return;
-        }
+        if (_gravity.IsGrounded) return _startPos.y;
 
-        if (IsFallingAfterFly)
-        {
-            _yOffset = _player.position.y + 2.1f;
-        }
-        else
-        {
-            _yOffset = transform.position.y + (rawOffset * _currentJumpOffset);
-        }
+        if (IsFallingAfterFly) return _player.position.y + _yOffset;
+        else return transform.position.y + (rawOffset * _currentJumpOffset);
     }
 
     public void TravelTo(float yPosition, float speed)
     {
-        float flyPosition = yPosition + 2.1f;
+        float flyPosition = yPosition + _yOffset;
         StartCoroutine(FlyTo(flyPosition, speed));
     }
 

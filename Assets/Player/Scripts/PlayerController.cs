@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(WallRun))]
 [RequireComponent(typeof(PlayerGravity))]
 [RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerCollision))]
 public class PlayerController : MonoBehaviour
 {
     Touch _touch;
@@ -48,8 +49,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        ManageTouchInput();
-        ManageKeyboardInput();
+        if (!PauseGame.Instance.IsGamePaused)
+        {
+            ManageTouchInput();
+            ManageKeyboardInput();
+        }
     }
 
     // ------ KEYBOARD INPUT ------
@@ -100,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     void ProcessJumpKey()
     {
-        if (Input.GetKeyDown(KeyCode.W) && _gravity.IsGrounded)
+        if (Input.GetKeyDown(KeyCode.W))
         {
             _movement.CancelSlide();
             _gravity.ApplyJump();
@@ -146,7 +150,7 @@ public class PlayerController : MonoBehaviour
                 ProcessDodgeInput();
                 ProcessWallRunInput();
 
-                if (!_movement.IsDodging || !IsVerticalInputLocked)
+                if (!_movement.IsDodging && !IsVerticalInputLocked)
                 {
                     ProcessJumpInput();
                     ProcessSlideInput();
@@ -182,6 +186,7 @@ public class PlayerController : MonoBehaviour
         bool isMovingToLeftWall = CurrentLane == 0 && _xOffset <= -Mathf.Epsilon;
         bool isMovingToRightWall = CurrentLane == LaneAmount - 1 && _xOffset >= Mathf.Epsilon;
 
+        if (!IsMovingHorizontally()) return;
         if (_movement.IsDodging) return;
         if (_gravity.IsFlying) return;
         if (!_gravity.IsGrounded) return;
@@ -190,6 +195,8 @@ public class PlayerController : MonoBehaviour
 
         if (isMovingToLeftWall) _wallRun.Activate(-1);
         else if (isMovingToRightWall) _wallRun.Activate(1);
+
+        _isTouchEnabled = false;
     }
 
     void ProcessJumpInput()

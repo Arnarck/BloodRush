@@ -13,19 +13,16 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDodgingToRight { get => _isDodgingToRight; }
     public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
 
-    [SerializeField] GameObject forcedFallVFX;
-    [SerializeField] ParticleSystem slideVFX;
+    [Header("Effects")]
+    [SerializeField] SoundType slideSFX;
+    [SerializeField] ParticleType slideVFX;
+    [Header("Movement Settings")]
     [SerializeField] float dodgeSpeed = 5f;
     [SerializeField] float slideTime = 2f;
 
     void Awake()
     {
         _gravity = GetComponent<PlayerGravity>();
-    }
-
-    void Start()
-    {
-        slideVFX.Stop();
     }
 
     public void DodgeTo(float xPosition)
@@ -47,8 +44,8 @@ public class PlayerMovement : MonoBehaviour
         if (!_isSliding) return;
 
         StopCoroutine(_slideRoutine);
-        slideVFX.Stop();
-        slideVFX.GetComponent<AudioSource>().Stop();
+        ParticleManager.Stop(slideVFX);
+        SoundManager.instance.StopSound(slideSFX);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -70,15 +67,15 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Slide()
     {
-        slideVFX.Play();
-        slideVFX.GetComponent<AudioSource>().Play();
+        ParticleManager.Play(slideVFX);
+        SoundManager.instance.PlaySound(slideSFX);
         _isSliding = true;
         transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
-        slideVFX.Stop();
-        slideVFX.GetComponent<AudioSource>().Stop();
+        ParticleManager.Stop(slideVFX);
+        SoundManager.instance.StopSound(slideSFX);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -92,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
         }
         _isAutoSlideEnabled = false;
 
-        Instantiate(forcedFallVFX, new Vector3(transform.position.x, 0f, transform.position.z), transform.rotation);
         _slideRoutine = StartCoroutine(Slide());
     }
 
