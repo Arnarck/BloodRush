@@ -59,7 +59,7 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "Lethal":
-                // Kill player
+                GameOver.Instance.Activate();
                 // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
 
