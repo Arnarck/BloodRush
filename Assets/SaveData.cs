@@ -84,7 +84,7 @@ public static class SaveData
     {
         string name = powerup.ToString();
         int currentLevel = PlayerPrefs.GetInt(name);
-        int nextLevel = currentLevel++;
+        int nextLevel = currentLevel + 1;
 
         PlayerPrefs.SetInt(name, nextLevel);
     }
@@ -118,43 +118,6 @@ public static class SaveData
     // =============== TOOLS ===============
 
 
-    public static void ResetSkinData()
-    {
-        foreach (SkinName skinName in Enum.GetValues(typeof(SkinName)))
-        {
-            string skin = skinName.ToString();
-            if (PlayerPrefs.HasKey(skin))
-            {
-                // Zero means "not purchased"
-                PlayerPrefs.SetInt(skin, 0);
-            }
-        }
-    }
-
-    public static void ResetPowerupData()
-    {
-        foreach (Powerup powerupName in Enum.GetValues(typeof(Powerup)))
-        {
-            string powerup = powerupName.ToString();
-            if (PlayerPrefs.HasKey(powerup))
-            {
-                PlayerPrefs.SetInt(powerup, _powerupStartLevel);
-            }
-        }
-    }
-
-    public static void ResetInventoryData()
-    {
-        foreach (PlayerInventory playerInventory in Enum.GetValues(typeof(PlayerInventory)))
-        {
-            string inventory = playerInventory.ToString();
-            if (PlayerPrefs.HasKey(inventory))
-            {
-                PlayerPrefs.SetInt(inventory, 0);
-            }
-        }
-    }
-
     public static bool IsSkinPurchased(SkinName skin)
     {
         string name = skin.ToString();
@@ -174,5 +137,85 @@ public static class SaveData
     {
         string name = dataName.ToString();
         return PlayerPrefs.GetInt(name);
+    }
+
+
+    // =============== DEBUG ===============
+
+
+    public static void ResetPowerupData(Powerup powerupName)
+    {
+        string powerup = powerupName.ToString();
+        if (PlayerPrefs.HasKey(powerup))
+        {
+            PlayerPrefs.SetInt(powerup, _powerupStartLevel);
+        }
+    }
+
+    public static void ResetAllPowerupData()
+    {
+        foreach (Powerup powerupName in Enum.GetValues(typeof(Powerup)))
+        {
+            string powerup = powerupName.ToString();
+            if (PlayerPrefs.HasKey(powerup))
+            {
+                PlayerPrefs.SetInt(powerup, _powerupStartLevel);
+            }
+        }
+    }
+
+    public static void ResetInventoryData(PlayerInventory inventoryData)
+    {
+        string inventory = inventoryData.ToString();
+        if (PlayerPrefs.HasKey(inventory))
+        {
+            PlayerPrefs.SetInt(inventory, 0);
+        }
+    }
+
+    public static void ResetAllInventoryData()
+    {
+        foreach (PlayerInventory playerInventory in Enum.GetValues(typeof(PlayerInventory)))
+        {
+            string inventory = playerInventory.ToString();
+            if (PlayerPrefs.HasKey(inventory))
+            {
+                PlayerPrefs.SetInt(inventory, 0);
+            }
+        }
+    }
+
+    public static void ResetSkinData()
+    {
+        foreach (SkinName skinName in Enum.GetValues(typeof(SkinName)))
+        {
+            string skin = skinName.ToString();
+            if (PlayerPrefs.HasKey(skin))
+            {
+                // Zero means "not purchased"
+                PlayerPrefs.SetInt(skin, 0);
+            }
+        }
+    }
+
+    public static void ResetAllSkins()
+    {
+        foreach (SkinName skinName in Enum.GetValues(typeof(SkinName)))
+        {
+            string skin = skinName.ToString();
+            if (PlayerPrefs.HasKey(skin))
+            {
+                PlayerPrefs.SetInt(skin, 0);
+            }
+        }
+    }
+
+    public static void ResetSkinData(SkinName skinName)
+    {
+        string skin = skinName.ToString();
+        if (PlayerPrefs.HasKey(skin))
+        {
+            PlayerPrefs.SetInt(skin, 0);
+        }
     }
 }
