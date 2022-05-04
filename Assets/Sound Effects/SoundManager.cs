@@ -1,18 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(SoundPool))]
 public class SoundManager: MonoBehaviour
 {
-    SoundPool _soundPool;
     public static SoundManager instance;
 
-    [SerializeField] Slider sfxSlider;
-
-    void Awake()
+    public enum SoundCaster
     {
-        _soundPool = GetComponent<SoundPool>();
+        Player,
+        Collectable,
+        Interface,
+        Music
     }
+
+    [System.Serializable]
+    class AvaliableSource
+    {
+        public SoundCaster caster;
+        public AudioSource source;
+    }
+
+    [SerializeField] Slider sfxSlider;
+    [SerializeField] AvaliableSource[] avaliableSources;
 
     void Start()
     {
@@ -20,48 +29,77 @@ public class SoundManager: MonoBehaviour
     }
 
     // Gets the specified sound from the pool. If it not exists, a AudioSource is removed to host the clip.
-    public void PlaySound(SoundType sound)
+    public void PlaySound(SoundType sound, SoundCaster caster)
     {
-        AudioSource source = _soundPool.GetAudioSource(sound);
-        if (source == null)
-        {
-            source = _soundPool.RemoveFromPool();
-            source.clip = _soundPool.GetAudioClip(sound);
-        }
-
+        AudioSource source = GetAudioSource(caster);
+        source.clip = GetAudioClip(sound);
         source.Play();
         if (PauseGame.Instance.IsGamePaused) source.Pause();
     }
 
-    public void StopSound(SoundType sound)
+    public void StopSound(SoundType sound, SoundCaster caster)
     {
-        AudioSource source = _soundPool.GetAudioSource(sound);
+        AudioSource source = GetAudioSource(caster);
         source.Stop();
+    }
+
+    AudioSource GetAudioSource(SoundCaster caster)
+    {
+        foreach (AvaliableSource source in avaliableSources)
+        {
+            if (caster.Equals(SoundCaster.Player))
+            {
+                // search for an source that is not playing
+                // if not found (SHOULD NOT HAPPEN), take the last one
+            }
+
+            if (source.caster.Equals(caster))
+            {
+                return source.source;
+            }
+        }
+
+        Debug.LogError("Sound Caster" + caster + " not found!");
+        return null;
+    }
+
+    AudioClip GetAudioClip(SoundType sound)
+    {
+        foreach (GameSounds.SoundAudioClip audioClip in GameSounds.instance.sounds)
+        {
+            if (audioClip.name.Equals(sound))
+            {
+                return audioClip.clip;
+            }
+        }
+
+        Debug.LogError("Sound clip" + sound + " not found!");
+        return null;
     }
 
     public void SetPauseState()
     {
         if (PauseGame.Instance.IsGamePaused)
         {
-            foreach (AudioSource source in _soundPool.AudioSources)
+            foreach (AvaliableSource audio in avaliableSources)
             {
-                source.Pause();
+                audio.source.Pause();
             }
         }
         else
         {
-            foreach (AudioSource source in _soundPool.AudioSources)
+            foreach (AvaliableSource audio in avaliableSources)
             {
-                source.UnPause();
+                audio.source.UnPause();
             }
         }
     }
 
     public void ModifyVolume()
     {
-        foreach (AudioSource source in _soundPool.AudioSources)
+        foreach (AvaliableSource audio in avaliableSources)
         {
-            source.volume = sfxSlider.value;
+            audio.source.volume = sfxSlider.value;
         }
     }
 }

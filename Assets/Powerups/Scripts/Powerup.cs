@@ -18,9 +18,8 @@ public abstract class Powerup : MonoBehaviour
 
     void Start()
     {
-        // Formula is 3.5x + 5. "initialLifetime" is the constant value (5).
-        float x = SaveData.GetPowerupLevel(powerupName);
-        CurrentLifetime = 3.5f * x + initialLifetime;
+        float powerupLevel = SaveData.GetPowerupLevel(powerupName);
+        CurrentLifetime = initialLifetime * powerupLevel;
         Debug.Log(powerupName + ": " + CurrentLifetime);
     }
 

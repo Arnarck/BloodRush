@@ -11,7 +11,8 @@ public class PlayerCollision : MonoBehaviour
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
 
-    
+    [SerializeField] SoundManager.SoundCaster caster;
+    [SerializeField] SoundManager.SoundCaster caster2;
     [SerializeField] SoundType hitSFX;
     [SerializeField] ParticleType hitVFX;
     [SerializeField] ParticleType collectableVFX;
@@ -44,7 +45,7 @@ public class PlayerCollision : MonoBehaviour
                 if (IsInvincible) return;
 
                 ParticleManager.Play(hitVFX);
-                SoundManager.instance.PlaySound(hitSFX);
+                SoundManager.instance.PlaySound(hitSFX, caster);
                 if (_berserkerBar.CurrentValue == 0)
                 {
                     GameOver.Instance.Activate();

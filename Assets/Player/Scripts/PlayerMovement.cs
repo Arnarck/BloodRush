@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
 
     [Header("Effects")]
+    [SerializeField] SoundManager.SoundCaster caster;
     [SerializeField] SoundType slideSFX;
     [SerializeField] ParticleType slideVFX;
     [Header("Movement Settings")]
@@ -45,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         StopCoroutine(_slideRoutine);
         ParticleManager.Stop(slideVFX);
-        SoundManager.instance.StopSound(slideSFX);
+        SoundManager.instance.StopSound(slideSFX, caster);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -68,14 +69,14 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Slide()
     {
         ParticleManager.Play(slideVFX);
-        SoundManager.instance.PlaySound(slideSFX);
+        SoundManager.instance.PlaySound(slideSFX, caster);
         _isSliding = true;
         transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
         ParticleManager.Stop(slideVFX);
-        SoundManager.instance.StopSound(slideSFX);
+        SoundManager.instance.StopSound(slideSFX, caster);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }

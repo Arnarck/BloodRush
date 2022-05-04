@@ -24,6 +24,7 @@ public static class SaveData
 
     public enum PlayerInventory
     {
+        SelectedSkin,
         BloodAmount,
         Highscore
     }
@@ -114,9 +115,26 @@ public static class SaveData
         PlayerPrefs.SetInt(name, totalAmount);
     }
 
+    public static void SetSelectedSkin(int index)
+    {
+        string name = PlayerInventory.SelectedSkin.ToString();
+        PlayerPrefs.SetInt(name, index);
+    }
+
 
     // =============== TOOLS ===============
 
+
+    public static int GetSkinSize()
+    {
+        int count = 0;
+        foreach (SkinName skin in Enum.GetValues(typeof(SkinName)))
+        {
+            count++;
+        }
+
+        return count;
+    }
 
     public static bool IsSkinPurchased(SkinName skin)
     {

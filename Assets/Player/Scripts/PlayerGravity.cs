@@ -19,6 +19,7 @@ public class PlayerGravity : MonoBehaviour
     public bool IsForcedFalling { get => _isForcedFalling; set => _isForcedFalling = value; }
 
     [Header("Effects")]
+    [SerializeField] SoundManager.SoundCaster caster;
     [SerializeField] SoundType groundHitSFX;
     [SerializeField] SoundType forcedFallSFX;
     [SerializeField] ParticleType forcedFallVFX;
@@ -85,12 +86,12 @@ public class PlayerGravity : MonoBehaviour
             if (IsForcedFalling)
             {
                 ParticleManager.Play(forcedFallVFX);
-                SoundManager.instance.PlaySound(forcedFallSFX);
+                SoundManager.instance.PlaySound(forcedFallSFX, caster);
 
             }
             else
             {
-                SoundManager.instance.PlaySound(groundHitSFX);
+                SoundManager.instance.PlaySound(groundHitSFX, caster);
             }
         }
 

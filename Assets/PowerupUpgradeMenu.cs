@@ -2,25 +2,16 @@
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
-public class ShopSystem : MonoBehaviour
+public class PowerupUpgradeMenu : MonoBehaviour
 {
     Dictionary<SaveData.Powerup, int> _powerupPrice = new Dictionary<SaveData.Powerup, int>();
 
     [SerializeField] int maxPowerupLevel;
     [SerializeField] TextMeshProUGUI coins;
-    [SerializeField] Skin[] skins;
     [Header("Display")]
     [SerializeField] PowerupDisplay[] powerupDisplay;
-    
-    [Serializable]
-    class Skin
-    {
-        public SaveData.SkinName name;
-        public int price;
-        public TextMeshProUGUI priceDisplay;
-        public GameObject buyScreen;
-    }
 
     [Serializable]
     class PowerupDisplay
@@ -28,13 +19,17 @@ public class ShopSystem : MonoBehaviour
         public SaveData.Powerup name;
         public TextMeshProUGUI priceDisplay;
         public TextMeshProUGUI levelDisplay;
+        public Button buyButton;
+    }
+
+    void Awake()
+    {
+        SaveData.CreateAllData();
     }
 
     void Start()
     {
-        SaveData.CreateAllData();
         SetPowerupPrices();
-        SetSkinPrices();
     }
 
     void Update()
@@ -47,7 +42,6 @@ public class ShopSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             SaveData.ResetInventoryData(SaveData.PlayerInventory.BloodAmount);
-            SaveData.ResetSkinData(SaveData.SkinName.MetalDemiAdany);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -89,10 +83,10 @@ public class ShopSystem : MonoBehaviour
     int GetPowerupPrice(SaveData.Powerup name)
     {
         float x = (float)SaveData.GetPowerupLevel(name);
-        float rawPrice = (10 * Mathf.Pow(x, 2f) ) * 5f;
+        float rawPrice = (10 * Mathf.Pow(x, 3f) ) + 40f;
         int price = (int)rawPrice;
 
-        // Formula is 10x^2 * 5
+        // Formula is 10x^3 + 40
         return price;
     }
 
@@ -119,47 +113,16 @@ public class ShopSystem : MonoBehaviour
         {
             SaveData.ModifyBloodAmount(-upgradePrice);
             SaveData.IncreasePowerupLevel(powerupName);
-            UpdatePowerupPrice(powerupName);
+
+            if (SaveData.GetPowerupLevel(powerupName) >= maxPowerupLevel)
+            {
+                powerupDisplay[index].buyButton.interactable = false;
+                powerupDisplay[index].buyButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Sold out";
+            }
+            else
+            {
+                UpdatePowerupPrice(powerupName);
+            }
         }
-    }
-
-
-    // ================== SKINS ==================
-
-
-    void SetSkinPrices()
-    {
-        foreach (Skin skin in skins)
-        {
-            skin.priceDisplay.text = skin.price.ToString();
-        }
-    }
-
-    public void BuySkin(int index)
-    {
-        SaveData.SkinName skinName = (SaveData.SkinName)index;
-        Skin skin = GetSkin(skinName);
-        int storedBloodAmount = SaveData.GetInventoryData(SaveData.PlayerInventory.BloodAmount);
-        int buyPrice = skin.price;
-
-        Debug.Log("Demi Adny purchased: " + SaveData.IsSkinPurchased(skinName));
-        if (storedBloodAmount >= buyPrice && !SaveData.IsSkinPurchased(skinName))
-        {
-            SaveData.ModifyBloodAmount(-buyPrice);
-            SaveData.PurchaseSkin(skinName);
-            skin.buyScreen.SetActive(false);
-            Debug.Log("Demi Adny purchased: " + SaveData.IsSkinPurchased(skinName));
-        }
-    }
-
-    Skin GetSkin(SaveData.SkinName skinName)
-    {
-        foreach (Skin skin in skins)
-        {
-            if (skin.name.Equals(skinName)) return skin;
-        }
-
-        Debug.LogError("Skin " + skinName + " not found!");
-        return null;
     }
 }
