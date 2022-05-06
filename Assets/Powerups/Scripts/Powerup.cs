@@ -20,7 +20,6 @@ public abstract class Powerup : MonoBehaviour
     {
         float powerupLevel = SaveData.GetPowerupLevel(powerupName);
         CurrentLifetime = initialLifetime * powerupLevel;
-        Debug.Log(powerupName + ": " + CurrentLifetime);
     }
 
     public abstract void Activate();

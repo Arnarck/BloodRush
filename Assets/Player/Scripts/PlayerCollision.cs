@@ -8,12 +8,16 @@ public class PlayerCollision : MonoBehaviour
     Fly _flyPowerup;
     HigherJump _jumpPowerup;
     BerserkerBar _berserkerBar;
+    PlayerMovement _movement;
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
 
-    [SerializeField] SoundManager.SoundCaster caster;
-    [SerializeField] SoundManager.SoundCaster caster2;
+    [Header("Sound Effects")]
+    [SerializeField] SoundManager.SoundCaster playerCaster;
+    [SerializeField] SoundManager.SoundCaster collectableCaster;
     [SerializeField] SoundType hitSFX;
+
+    [Header("Visual Effects")]
     [SerializeField] ParticleType hitVFX;
     [SerializeField] ParticleType collectableVFX;
     [SerializeField] ParticleType powerupCollectedVFX;
@@ -22,6 +26,7 @@ public class PlayerCollision : MonoBehaviour
     {
         _flyPowerup = GetComponent<Fly>();
         _jumpPowerup = GetComponent<HigherJump>();
+        _movement = GetComponent<PlayerMovement>();
         _berserkerBar = GetComponent<BerserkerBar>();
     }
 
@@ -45,7 +50,7 @@ public class PlayerCollision : MonoBehaviour
                 if (IsInvincible) return;
 
                 ParticleManager.Play(hitVFX);
-                SoundManager.instance.PlaySound(hitSFX, caster);
+                SoundManager.instance.PlaySound(hitSFX, playerCaster, false);
                 if (_berserkerBar.CurrentValue == 0)
                 {
                     GameOver.Instance.Activate();
@@ -53,6 +58,7 @@ public class PlayerCollision : MonoBehaviour
                 else
                 {
                     _berserkerBar.CurrentValue = 0;
+                    _movement.MoveToPreviousLane();
                 }
                 // If player is transformed, just reduce the bar
                 // If the bar is already empty, kill the player

@@ -14,16 +14,18 @@ public class PlayerController : MonoBehaviour
     PlayerMovement _movement;
 
     // Middle lane is always "transform.position.x == 0f"
-    int _middleLane, _currentLane;
+    int _middleLane, _currentLane, _previousLane;
     bool _isTouchEnabled = true, _isVerticalInputLocked;
     float _xOffset, _yOffset;
 
     public int LaneAmount { get => laneAmount; }
-    public int MiddleLane { get => _middleLane; }
+    public int MiddleLane { get => _middleLane; private set => _middleLane = value; }
     public int StartingLane { get => startingLane; }
     public float LaneDistance { get => laneDistance; }
     public int CurrentLane { get => _currentLane; private set => _currentLane = value; }
-    public float CurrentPosition { get => (_currentLane - _middleLane) * laneDistance; }
+    public int PreviousLane { get => _previousLane; private set => _previousLane = value; }
+    public float PreviousPosition { get => (PreviousLane - MiddleLane) * LaneDistance; }
+    public float CurrentPosition { get => (CurrentLane - MiddleLane) * LaneDistance; }
     public bool IsVerticalInputLocked { get => _isVerticalInputLocked; set => _isVerticalInputLocked = value; }
 
     [SerializeField] float laneDistance = 3f;
@@ -40,8 +42,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _middleLane = Mathf.FloorToInt(laneAmount / 2f);
-        _currentLane = Mathf.Clamp(startingLane, 0, laneAmount - 1);
+        MiddleLane = Mathf.FloorToInt(laneAmount / 2f);
+        CurrentLane = Mathf.Clamp(startingLane, 0, laneAmount - 1);
+        PreviousLane = CurrentLane;
 
         _camera.SetStartPosition(CurrentPosition);
         transform.position = new Vector3(CurrentPosition, transform.position.y, transform.position.z);
@@ -245,7 +248,7 @@ public class PlayerController : MonoBehaviour
         return xOffset >= yOffset ? true : false;
     }
 
-    void SwitchLane(int desiredLane)
+    public void SwitchLane(int desiredLane)
     {
         float nextPosition = CurrentPosition;
         desiredLane = Mathf.Clamp(desiredLane, 0, laneAmount - 1);
@@ -257,6 +260,7 @@ public class PlayerController : MonoBehaviour
         else if (desiredLane < _currentLane) nextPosition -= laneDistance;
         else return;
 
+        PreviousLane = CurrentLane;
         CurrentLane = desiredLane;
         _movement.DodgeTo(nextPosition);
     }

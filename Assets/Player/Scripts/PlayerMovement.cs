@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     PlayerGravity _gravity;
+    PlayerController _controller;
     Coroutine _moveTo, _slideRoutine, _autoSlideRoutine;
 
     bool _isDodging, _isSliding, _isAutoSlideEnabled, _isDodgingToRight;
@@ -13,10 +14,13 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDodgingToRight { get => _isDodgingToRight; }
     public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
 
-    [Header("Effects")]
-    [SerializeField] SoundManager.SoundCaster caster;
+    [Header("Sound Effects")]
+    [SerializeField] SoundManager.SoundCaster soundCaster;
     [SerializeField] SoundType slideSFX;
+
+    [Header("Visual Effects")]
     [SerializeField] ParticleType slideVFX;
+
     [Header("Movement Settings")]
     [SerializeField] float dodgeSpeed = 5f;
     [SerializeField] float slideTime = 2f;
@@ -24,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _gravity = GetComponent<PlayerGravity>();
+        _controller = GetComponent<PlayerController>();
     }
 
     public void DodgeTo(float xPosition)
@@ -31,6 +36,13 @@ public class PlayerMovement : MonoBehaviour
         if (_isDodging) StopCoroutine(_moveTo);
 
         _moveTo = StartCoroutine(MoveTo(xPosition));
+    }
+
+    public void MoveToPreviousLane()
+    {
+        if (!_isDodging) return;
+
+        _controller.SwitchLane(_controller.PreviousLane);
     }
 
     public void ApplySlide()
@@ -46,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
         StopCoroutine(_slideRoutine);
         ParticleManager.Stop(slideVFX);
-        SoundManager.instance.StopSound(slideSFX, caster);
+        SoundManager.instance.StopSound(slideSFX, soundCaster);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
@@ -69,14 +81,14 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Slide()
     {
         ParticleManager.Play(slideVFX);
-        SoundManager.instance.PlaySound(slideSFX, caster);
+        SoundManager.instance.PlaySound(slideSFX, soundCaster, true);
         _isSliding = true;
         transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
         ParticleManager.Stop(slideVFX);
-        SoundManager.instance.StopSound(slideSFX, caster);
+        SoundManager.instance.StopSound(slideSFX, soundCaster);
         _isSliding = false;
         transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
