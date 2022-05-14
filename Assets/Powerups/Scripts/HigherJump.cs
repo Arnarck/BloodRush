@@ -40,7 +40,7 @@ public class HigherJump : Powerup
 
     protected override IEnumerator CountdownToDeactivate()
     {
-        yield return new WaitForSeconds(Lifetime);
+        yield return new WaitForSeconds(CurrentLifetime);
         Deactivate();
     }
 

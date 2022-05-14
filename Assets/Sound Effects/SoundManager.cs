@@ -1,67 +1,146 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(SoundPool))]
 public class SoundManager: MonoBehaviour
 {
-    SoundPool _soundPool;
     public static SoundManager instance;
 
-    [SerializeField] Slider sfxSlider;
-
-    void Awake()
+    public enum SoundCaster
     {
-        _soundPool = GetComponent<SoundPool>();
+        Player,
+        Collectable,
+        Interface,
+        Music
     }
+
+    [System.Serializable]
+    class AvaliableSource
+    {
+        public SoundCaster caster;
+        public AudioSource source;
+    }
+
+    [SerializeField] Slider sfxSlider;
+    [SerializeField] AvaliableSource[] avaliableSources;
 
     void Start()
     {
-        instance = this; 
+        instance = this;
     }
 
-    // Gets the specified sound from the pool. If it not exists, a AudioSource is removed to host the clip.
-    public void PlaySound(SoundType sound)
+    public void PlaySound(SoundType sound, SoundCaster caster, bool isLooping)
     {
-        AudioSource source = _soundPool.GetAudioSource(sound);
-        if (source == null)
-        {
-            source = _soundPool.RemoveFromPool();
-            source.clip = _soundPool.GetAudioClip(sound);
-        }
+        AudioSource source = GetAvaliableSources(caster, sound, isLooping);
 
+        source.clip = GetAudioClip(sound);
+        source.loop = isLooping;
         source.Play();
-        if (PauseGame.Instance.IsGamePaused) source.Pause();
+
+        if (PauseGame.Instance.IsGamePaused && !caster.Equals(SoundCaster.Interface)) source.Pause();
     }
 
-    public void StopSound(SoundType sound)
+    public void StopSound(SoundType sound, SoundCaster caster)
     {
-        AudioSource source = _soundPool.GetAudioSource(sound);
-        source.Stop();
+        List<AudioSource> sources = GetCasterSources(caster);
+
+        foreach (AudioSource source in sources)
+        {
+            if (source.clip == GetAudioClip(sound))
+            {
+                source.Stop();
+            }
+        }
     }
 
     public void SetPauseState()
     {
         if (PauseGame.Instance.IsGamePaused)
         {
-            foreach (AudioSource source in _soundPool.AudioSources)
+            foreach (AvaliableSource audio in avaliableSources)
             {
-                source.Pause();
+                if (!audio.caster.Equals(SoundCaster.Interface))
+                {
+                    audio.source.Pause();
+                }
             }
         }
         else
         {
-            foreach (AudioSource source in _soundPool.AudioSources)
+            foreach (AvaliableSource audio in avaliableSources)
             {
-                source.UnPause();
+                audio.source.UnPause();
             }
         }
     }
 
     public void ModifyVolume()
     {
-        foreach (AudioSource source in _soundPool.AudioSources)
+        foreach (AvaliableSource audio in avaliableSources)
         {
-            source.volume = sfxSlider.value;
+            audio.source.volume = sfxSlider.value;
         }
+    }
+
+    // Return an AudioSource that is avaliable to play a clip.
+    AudioSource GetAvaliableSources(SoundCaster caster, SoundType sound, bool isSoundLooping)
+    {
+        List<AudioSource> sources = new List<AudioSource>();
+        sources = GetCasterSources(caster);
+
+        // Search for an avaliable source.
+        foreach (AudioSource source in sources)
+        {
+            bool isAudioClipNull = source.clip == null;
+            bool isSameAudioClip = source.clip == GetAudioClip(sound);
+            bool isNotPlaying = !PauseGame.Instance.IsGamePaused && !source.isPlaying;
+
+            if (isAudioClipNull || isSameAudioClip || isNotPlaying)
+            {
+                return source;
+            }
+        }
+
+        // If all sources are busy, an source of same loop state is searched to be replaced.
+        foreach (AudioSource source in sources)
+        {
+            if (source.loop && isSoundLooping)
+            {
+                return source;
+            }
+        }
+
+        // If has no avaliable sources, return the first index of the array.
+        return sources[0];
+    }
+
+    // Returns all AudioSources sharing the same caster.
+    List<AudioSource> GetCasterSources(SoundCaster caster)
+    {
+         List<AudioSource> casters = new List<AudioSource>();
+
+        foreach (AvaliableSource avaliableSource in avaliableSources)
+        {
+            if (avaliableSource.caster.Equals(caster))
+            {
+                casters.Add(avaliableSource.source);
+            }
+        }
+
+        return casters;
+    }
+
+    AudioClip GetAudioClip(SoundType sound)
+    {
+        foreach (GameSounds.SoundAudioClip audioClip in GameSounds.instance.sounds)
+        {
+            if (audioClip.name.Equals(sound))
+            {
+                return audioClip.clip;
+            }
+        }
+
+        Debug.LogError("Sound clip" + sound + " not found!");
+        return null;
     }
 }
