@@ -85,6 +85,7 @@ public class PlayerGravity : MonoBehaviour
 
         if (IsGrounded && previousIsGrounded == false)
         {
+            GetComponent<PlayerController>().PlayerAnimator.SetBool("isJumping", false);
             if (IsForcedFalling)
             {
                 ParticleManager.Play(forcedFallVFX);
@@ -104,6 +105,7 @@ public class PlayerGravity : MonoBehaviour
     {
         if (!IsGrounded) return;
 
+        GetComponent<PlayerController>().PlayerAnimator.SetBool("isJumping", true);
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
     }
 

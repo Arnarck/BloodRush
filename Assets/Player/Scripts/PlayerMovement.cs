@@ -56,11 +56,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_isSliding) return;
 
+        _controller.PlayerAnimator.SetBool("isRolling", false);
         StopCoroutine(_slideRoutine);
         ParticleManager.Stop(slideVFX);
         SoundManager.instance.StopSound(slideSFX, soundCaster);
         _isSliding = false;
-        transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
 
     public void ApplyAutoSlide()
@@ -81,16 +81,16 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Slide()
     {
         ParticleManager.Play(slideVFX);
+        _controller.PlayerAnimator.SetBool("isRolling", true);
         SoundManager.instance.PlaySound(slideSFX, soundCaster, true);
         _isSliding = true;
-        transform.GetChild(0).transform.eulerAngles = Vector3.right * 90f;
 
         yield return new WaitForSeconds(slideTime);
 
         ParticleManager.Stop(slideVFX);
+        _controller.PlayerAnimator.SetBool("isRolling", false);
         SoundManager.instance.StopSound(slideSFX, soundCaster);
         _isSliding = false;
-        transform.GetChild(0).transform.eulerAngles = Vector3.zero;
     }
 
     IEnumerator AutoSlide()

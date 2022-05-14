@@ -4,7 +4,7 @@ using System;
 public class SkinSelection : MonoBehaviour
 {
 
-    [SerializeField]MeshFilter _playerMesh;
+    [SerializeField] SkinnedMeshRenderer _playerMesh;
     [SerializeField] Mesh demiAdanySkin;
     [SerializeField] SkinData[] avaliableSkins;
 
@@ -22,7 +22,7 @@ public class SkinSelection : MonoBehaviour
 
         if (selectedSkinIndex == 0)
         {
-            _playerMesh.mesh = demiAdanySkin;
+            _playerMesh.sharedMesh = demiAdanySkin;
             return;
         }
 
@@ -32,7 +32,7 @@ public class SkinSelection : MonoBehaviour
             if (skin.name.Equals(selectedSkin))
             {
                 Debug.Log(selectedSkin.ToString());
-                _playerMesh.mesh = skin.mesh;
+                _playerMesh.sharedMesh = skin.mesh;
             }
         }
     }

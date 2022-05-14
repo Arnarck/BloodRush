@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     PlayerGravity _gravity;
     CameraFollower _camera;
     PlayerMovement _movement;
-    public MovementType _storedMovement;
+    MovementType _storedMovement;
 
     // Middle lane is always "transform.position.x == 0f"
     int _middleLane, _currentLane, _previousLane;
@@ -38,7 +38,9 @@ public class PlayerController : MonoBehaviour
     public float CurrentPosition { get => (CurrentLane - MiddleLane) * LaneDistance; }
     public MovementType StoredMovement { get => _storedMovement; set => _storedMovement = value; }
     public bool IsVerticalInputLocked { get => _isVerticalInputLocked; set => _isVerticalInputLocked = value; }
+    public Animator PlayerAnimator { get => playerAnimator; set => playerAnimator = value; }
 
+    [SerializeField] Animator playerAnimator;
     [SerializeField] float laneDistance = 3f;
     [SerializeField][Range(1, 7)] int laneAmount = 3;
     [SerializeField][Range(0, 6)] int startingLane = 1;
