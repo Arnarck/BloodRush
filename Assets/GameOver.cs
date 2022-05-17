@@ -2,11 +2,15 @@
 
 public class GameOver : MonoBehaviour
 {
+    bool _isGameOver;
+
     public static GameOver Instance { get; private set; }
 
     [SerializeField] GameObject gameOverScreen;
 
-    void Start()
+    public bool IsGameOver { get => _isGameOver; private set => _isGameOver = value; }
+
+    void Awake()
     {
         Instance = this;
     }
@@ -15,5 +19,8 @@ public class GameOver : MonoBehaviour
     {
         PauseGame.Instance.SetPause(true);
         gameOverScreen.SetActive(true);
+        IsGameOver = true;
+
+        ScoreCounter.Instance.SaveHighScore();
     }
 }

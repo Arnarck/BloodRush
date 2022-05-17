@@ -33,7 +33,6 @@ public class PlayerCollision : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         ProcessCollision(other.tag);
-        Destroy(other.gameObject);
     }
 
     void ProcessCollision(string other)

@@ -8,7 +8,7 @@ public class HigherJump : Powerup
 
     Coroutine _toggleHigherJumpCamera;
 
-    [SerializeField] float force = 35f;
+    [SerializeField] float force = 20f;
     [SerializeField][Range(0f, 1f)] float cameraOffset = .6f;
 
     void Awake()
