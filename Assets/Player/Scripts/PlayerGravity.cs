@@ -18,9 +18,12 @@ public class PlayerGravity : MonoBehaviour
     public bool IsWallRunning { get => _isWallRunning; set => _isWallRunning = value; }
     public bool IsForcedFalling { get => _isForcedFalling; set => _isForcedFalling = value; }
 
-    [Header("Effects")]
+    [Header("Sound Effects")]
+    [SerializeField] SoundManager.SoundCaster soundCaster;
     [SerializeField] SoundType groundHitSFX;
     [SerializeField] SoundType forcedFallSFX;
+
+    [Header("Visual Effects")]
     [SerializeField] ParticleType forcedFallVFX;
 
     [Header("Gravity Settings")]
@@ -82,15 +85,16 @@ public class PlayerGravity : MonoBehaviour
 
         if (IsGrounded && previousIsGrounded == false)
         {
+            GetComponent<PlayerController>().PlayerAnimator.SetBool("isJumping", false);
             if (IsForcedFalling)
             {
                 ParticleManager.Play(forcedFallVFX);
-                SoundManager.instance.PlaySound(forcedFallSFX);
+                SoundManager.instance.PlaySound(forcedFallSFX, soundCaster, false);
 
             }
             else
             {
-                SoundManager.instance.PlaySound(groundHitSFX);
+                SoundManager.instance.PlaySound(groundHitSFX, soundCaster, false);
             }
         }
 
@@ -101,6 +105,7 @@ public class PlayerGravity : MonoBehaviour
     {
         if (!IsGrounded) return;
 
+        GetComponent<PlayerController>().PlayerAnimator.SetBool("isJumping", true);
         _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _currentJumpForce, _rigidBody.velocity.z);
     }
 

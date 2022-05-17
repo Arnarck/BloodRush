@@ -92,7 +92,7 @@ public class Fly : Powerup
             yield return new WaitForEndOfFrame();
         }
 
-        yield return new WaitForSeconds(Lifetime);
+        yield return new WaitForSeconds(CurrentLifetime);
         Deactivate();
     }
 

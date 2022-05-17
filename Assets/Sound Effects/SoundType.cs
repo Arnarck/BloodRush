@@ -1,12 +1,12 @@
 ﻿public enum SoundType
 {
-    JumpStart,
-    JumpEnd,
+    Jump,
+    GroundHit,
     ForcedFall,
-    PlayerDodge,
-    PlayerSlide,
-    PlayerWallRun,
+    Dodge,
+    Slide,
+    WallRun,
     PowerupCollected,
-    PlayerHit,
+    Hit,
     CollectableCollected
 }
