@@ -3425,9 +3425,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21cf2d4b32224444858e64219724b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skybox: {fileID: 0}
   scoreDisplay: {fileID: 96143589}
   startMultiplier: 1
-  startDelay: 0.25
+  reduceRate: 100
+  timeReduced: 0.05
+  timeToUpdate: 0.25
+  minTimeToUpdate: 0.05
 --- !u!4 &1269321570
 Transform:
   m_ObjectHideFlags: 0

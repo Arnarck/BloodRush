@@ -5,19 +5,30 @@ using TMPro;
 
 public class ScoreCounter : MonoBehaviour
 {
-    int _score;
+    int _score, _currentReduceRate;
     float _currentDelay, _currentMultiplier;
 
+    [SerializeField] Skybox skybox;
     [SerializeField] TextMeshProUGUI scoreDisplay;
     [SerializeField] float startMultiplier = 1f;
-    [Tooltip("How Much the cooldown will decrease for each speed gain")][SerializeField] float delayDecrease = .02f;
-    [Tooltip("The initial cooldown time to the score update again")][SerializeField] float startDelay = .25f;
-    [SerializeField] float minDelay = .01f;
+
+    [Tooltip("The score needed to reduce the time to update.")]
+    [SerializeField] int reduceRate = 100;
+
+    [Tooltip("The time reduced to update the score.")]
+    [SerializeField] float timeReduced = .05f;
+
+    [Tooltip("The initial time until the score increase again.")]
+    [SerializeField] float timeToUpdate = .25f;
+
+    [Tooltip("The minimum time to update accepted.")]
+    [SerializeField] float minTimeToUpdate = .05f;
 
     public static ScoreCounter Instance { get; private set; }
 
     public int Score { get => _score; private set => _score = value; }
-    public float CurrentDelay { get => _currentDelay; private set => _currentDelay = value; }
+    public int CurrentReduceRate { get => _currentReduceRate; private set => _currentReduceRate = value; }
+    public float CurrentTimeToUpdate { get => _currentDelay; private set => _currentDelay = value; }
     public float CurrentMultiplier { get => _currentMultiplier; private set => _currentMultiplier = value; }
 
     void Awake()
@@ -27,8 +38,10 @@ public class ScoreCounter : MonoBehaviour
 
     void Start()
     {
-        CurrentDelay = startDelay;
+        CurrentReduceRate = reduceRate;
+        CurrentTimeToUpdate = timeToUpdate;
         CurrentMultiplier = startMultiplier;
+
         StartCoroutine(IncrementScore());
     }
 
@@ -37,24 +50,22 @@ public class ScoreCounter : MonoBehaviour
         while (!GameOver.Instance.IsGameOver)
         {
             Score++;
+            if (Score >= CurrentReduceRate)
+            {
+                ReduceUpdateTime();
+            }
+
             scoreDisplay.text = Score.ToString();
-            yield return new WaitForSeconds(CurrentDelay / CurrentMultiplier);
+            yield return new WaitForSeconds(CurrentTimeToUpdate / CurrentMultiplier);
         }
     }
 
-    void DecreaseDelay()
+    void ReduceUpdateTime()
     {
-        CurrentDelay -= delayDecrease;
-    }
+        CurrentReduceRate += reduceRate;
+        CurrentTimeToUpdate -= timeReduced;
 
-    void SetScoreMultiplier(float multiplier)
-    {
-        CurrentMultiplier = multiplier;
-    }
-
-    void ResetScoreMultiplier()
-    {
-        CurrentMultiplier = startMultiplier;
+        CurrentTimeToUpdate = Mathf.Clamp(CurrentTimeToUpdate, minTimeToUpdate, timeToUpdate);
     }
 
     public void SaveHighScore()
