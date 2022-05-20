@@ -51,14 +51,14 @@ public class PlayerController : MonoBehaviour
         _gravity = GetComponent<PlayerGravity>();
         _movement = GetComponent<PlayerMovement>();
         _camera = FindObjectOfType<CameraFollower>();
+
+        MiddleLane = Mathf.FloorToInt(laneAmount / 2f);
+        CurrentLane = Mathf.Clamp(startingLane, 0, laneAmount - 1);
+        PreviousLane = CurrentLane;
     }
 
     void Start()
     {
-        MiddleLane = Mathf.FloorToInt(laneAmount / 2f);
-        CurrentLane = Mathf.Clamp(startingLane, 0, laneAmount - 1);
-        PreviousLane = CurrentLane;
-
         _camera.SetStartPosition(CurrentPosition);
         transform.position = new Vector3(CurrentPosition, transform.position.y, transform.position.z);
     }

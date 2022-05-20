@@ -8,15 +8,17 @@ public class ScoreCounter : MonoBehaviour
     int _score, _currentReduceRate;
     float _currentDelay, _currentMultiplier;
 
-    [SerializeField] Skybox skybox;
     [SerializeField] TextMeshProUGUI scoreDisplay;
-    [SerializeField] float startMultiplier = 1f;
 
+    [Header("Reduce Update Settings")]
     [Tooltip("The score needed to reduce the time to update.")]
-    [SerializeField] int reduceRate = 100;
+    [SerializeField] int scoreToReduceUpdateTime = 100;
 
     [Tooltip("The time reduced to update the score.")]
     [SerializeField] float timeReduced = .05f;
+
+    [Header("Update Settings")]
+    [SerializeField] float startMultiplier = 1f;
 
     [Tooltip("The initial time until the score increase again.")]
     [SerializeField] float timeToUpdate = .25f;
@@ -38,7 +40,7 @@ public class ScoreCounter : MonoBehaviour
 
     void Start()
     {
-        CurrentReduceRate = reduceRate;
+        CurrentReduceRate = scoreToReduceUpdateTime;
         CurrentTimeToUpdate = timeToUpdate;
         CurrentMultiplier = startMultiplier;
 
@@ -62,7 +64,7 @@ public class ScoreCounter : MonoBehaviour
 
     void ReduceUpdateTime()
     {
-        CurrentReduceRate += reduceRate;
+        CurrentReduceRate += scoreToReduceUpdateTime;
         CurrentTimeToUpdate -= timeReduced;
 
         CurrentTimeToUpdate = Mathf.Clamp(CurrentTimeToUpdate, minTimeToUpdate, timeToUpdate);
