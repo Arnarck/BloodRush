@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &58937957851635963
 Transform:
@@ -91,12 +91,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3792247836426746782}
   - component: {fileID: 5169371915456846436}
+  - component: {fileID: -2112220265519048250}
   m_Layer: 0
   m_Name: MachadoObstaculo
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3792247836426746782
 Transform:
@@ -126,3 +127,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5707121, y: 0.44863644, z: 0.09735644}
   m_Center: {x: -0.16345923, y: 0.9600608, z: 0.005070889}
+--- !u!114 &-2112220265519048250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605799217012007204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d893cd8eb991e409579f6543d07825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onlyDisableForDestroyer: 0
