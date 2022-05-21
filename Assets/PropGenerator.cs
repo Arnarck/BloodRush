@@ -22,6 +22,7 @@ public class PropGenerator : MonoBehaviour
     LaneInfo[] _lanes;
     PlayerController _controller;
 
+    float _currentTimeToSpawn;
     bool _isWallRunAvaliable;
 
     [Header("Spawn Settings")]
@@ -56,12 +57,15 @@ public class PropGenerator : MonoBehaviour
     [SerializeField][Range(0, 9)] int wallRunSpawnRate = 5;
     [SerializeField] PoolingSystem wallunPrefabs;
 
+    public float TimeToSpawn { get => _currentTimeToSpawn; set => _currentTimeToSpawn = value; }
+
     void Awake()
     {
         _controller = FindObjectOfType<PlayerController>();
         _lanes = new LaneInfo[_controller.LaneAmount];
         transform.position += Vector3.forward * startSpawnDistance;
         _isWallRunAvaliable = true;
+        _currentTimeToSpawn = timeToSpawn;
 
         for (int i = 0; i < _lanes.Length; i++)
         {
@@ -86,7 +90,7 @@ public class PropGenerator : MonoBehaviour
     {
         while (!GameOver.Instance.IsGameOver)
         {
-            yield return new WaitForSeconds(timeToSpawn);
+            yield return new WaitForSeconds(TimeToSpawn);
             StartSpawnProcess();
         }
     }

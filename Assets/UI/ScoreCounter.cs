@@ -5,6 +5,8 @@ using TMPro;
 
 public class ScoreCounter : MonoBehaviour
 {
+    SpeedProgression _speedProgression;
+
     int _score, _currentReduceRate;
     float _currentDelay, _currentMultiplier;
 
@@ -36,6 +38,7 @@ public class ScoreCounter : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        _speedProgression = FindObjectOfType<SpeedProgression>();
     }
 
     void Start()
@@ -52,9 +55,15 @@ public class ScoreCounter : MonoBehaviour
         while (!GameOver.Instance.IsGameOver)
         {
             Score++;
-            if (Score >= CurrentReduceRate)
+
+            if (Score == 100)
             {
-                ReduceUpdateTime();
+                _speedProgression.IncreaseSpeed();
+            }
+
+            if (Score == 200)
+            {
+                _speedProgression.IncreaseSpeed();
             }
 
             scoreDisplay.text = Score.ToString();
