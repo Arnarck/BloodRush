@@ -1907,7 +1907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 2095764035663325439, guid: d522b8a1db5b0fb47b18a446647e0432,
     type: 3}
-  poolSize: 6
+  poolSize: 7
 --- !u!1 &494883707
 GameObject:
   m_ObjectHideFlags: 0
@@ -7209,8 +7209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1899955098}
-  tilePrefabs:
-  - {fileID: 2095764035663325439, guid: d522b8a1db5b0fb47b18a446647e0432, type: 3}
+  tilePrefabs: {fileID: 486453567}
   zSpawn: 0
   tileLength: 30
   tilesOnScreen: 5

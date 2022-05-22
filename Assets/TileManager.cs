@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    List<GameObject> _activeTiles = new List<GameObject>();
-
     [SerializeField] Transform player;
-    [SerializeField] GameObject[] tilePrefabs;
+    [SerializeField] PoolingSystem tilePrefabs;
     [SerializeField] float zSpawn;
     [SerializeField] float tileLength;
     [SerializeField] int tilesOnScreen = 5;
@@ -17,14 +15,7 @@ public class TileManager : MonoBehaviour
     {
         for (int i = 0; i < tilesOnScreen; i++)
         {
-            if (i == 0)
-            {
-                SpawnTile(0);
-            }
-            else
-            {
-                SpawnTile(Random.Range(0, tilePrefabs.Length));
-            }
+            SpawnTile();
         }
     }
 
@@ -33,21 +24,14 @@ public class TileManager : MonoBehaviour
     {
         if (player.transform.position.z - 35f >= zSpawn - (tilesOnScreen * tileLength))
         {
-            SpawnTile(Random.Range(0, tilePrefabs.Length));
-            DeleteTile();
+            SpawnTile();
         }
     }
 
-    void SpawnTile(int index)
+    void SpawnTile()
     {
-        GameObject tile = Instantiate(tilePrefabs[index], transform.forward * zSpawn, Quaternion.identity);
-        _activeTiles.Add(tile);
+        GameObject tile = tilePrefabs.GetObject();
+        tile.transform.position = transform.forward * zSpawn;
         zSpawn += tileLength;
-    }
-
-    void DeleteTile()
-    {
-        Destroy(_activeTiles[0]);
-        _activeTiles.RemoveAt(0);
     }
 }

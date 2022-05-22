@@ -6,7 +6,11 @@ public class Disabler : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Destroyer") && onlyDisableForDestroyer) gameObject.SetActive(false);
+        if (other.CompareTag("Destroyer") && onlyDisableForDestroyer)
+        {
+            if (gameObject.layer == 8) transform.parent.gameObject.SetActive(false);
+            else gameObject.SetActive(false);
+        }
         else if (other.CompareTag("Player") || other.CompareTag("Destroyer")) gameObject.SetActive(false);
     }
 }
