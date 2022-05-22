@@ -9,11 +9,15 @@ public class PlayerCollision : MonoBehaviour
 
     Fly _flyPowerup;
     HigherJump _jumpPowerup;
-    BerserkerBar _berserkerBar;
     PlayerMovement _movement;
+    BerserkerBar _berserkerBar;
+    BerserkerMode _berserkerMode;
+    ScoreMultiplier _scorePowerup;
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
 
+    [SerializeField] int transformedObstacleDamage = 2;
+    [SerializeField] int transformedLethalDamage = 5;
     [SerializeField] TextMeshProUGUI bloodDisplay;
     [Header("Sound Effects")]
     [SerializeField] SoundManager.SoundCaster playerCaster;
@@ -31,6 +35,8 @@ public class PlayerCollision : MonoBehaviour
         _jumpPowerup = GetComponent<HigherJump>();
         _movement = GetComponent<PlayerMovement>();
         _berserkerBar = GetComponent<BerserkerBar>();
+        _berserkerMode = FindObjectOfType<BerserkerMode>();
+        _scorePowerup = GetComponent<ScoreMultiplier>();
     }
 
     void Start()
@@ -56,8 +62,16 @@ public class PlayerCollision : MonoBehaviour
 
                 ParticleManager.Play(hitVFX);
                 SoundManager.instance.PlaySound(hitSFX, playerCaster, false);
+
+                if (_berserkerMode.IsTransformed)
+                {
+                    _berserkerMode.ReduceBarValue(transformedObstacleDamage);
+                    return;
+                }
+
                 if (_berserkerBar.CurrentValue == 0)
                 {
+                    SaveData.ModifyBloodAmount(_bloodCollected);
                     GameOver.Instance.Activate();
                 }
                 else
@@ -69,8 +83,18 @@ public class PlayerCollision : MonoBehaviour
 
             case "Lethal":
                 if (IsInvincible) return;
+
+                if (_berserkerMode.IsTransformed)
+                {
+                    ParticleManager.Play(hitVFX);
+                    SoundManager.instance.PlaySound(hitSFX, playerCaster, false);
+                    _berserkerMode.ReduceBarValue(transformedLethalDamage);
+                    _movement.MoveToPreviousLane();
+                    return;
+                }
+
+                SaveData.ModifyBloodAmount(_bloodCollected);
                 GameOver.Instance.Activate();
-                // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
 
             case "Fly":
@@ -79,7 +103,7 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "ScoreMultiplier":
-                // Active score multiplier
+                _scorePowerup.Activate();
                 ParticleManager.Play(powerupCollectedVFX);
                 break;
 

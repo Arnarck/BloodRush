@@ -65,7 +65,7 @@ public class PropGenerator : MonoBehaviour
         _lanes = new LaneInfo[_controller.LaneAmount];
         transform.position += Vector3.forward * startSpawnDistance;
         _isWallRunAvaliable = true;
-        _currentTimeToSpawn = timeToSpawn;
+        TimeToSpawn = timeToSpawn;
 
         for (int i = 0; i < _lanes.Length; i++)
         {
@@ -219,20 +219,31 @@ public class PropGenerator : MonoBehaviour
         int lastLane = _controller.LaneAmount - 1;
         float xLanePosition = 0f;
 
-        if (Random.Range(minRandom, maxRandom) < wallRunSpawnRate && _lanes[firstLane].propPlaced.Equals(PropType.Obstacle))
+        if (Random.Range(minRandom, maxRandom) < wallRunSpawnRate && SearchForLaneIndex(firstLane).propPlaced.Equals(PropType.Obstacle))
         {
             GameObject wall = wallunPrefabs.GetObject();
             xLanePosition = GetLanePosition(firstLane);
             wall.transform.position = new Vector3(xLanePosition - xWallOffset, wall.transform.position.y, transform.position.z);
+            StartCoroutine(CooldownToSpawnWallRun());
         }
-        else if (Random.Range(minRandom, maxRandom) < wallRunSpawnRate && _lanes[lastLane].propPlaced.Equals(PropType.Obstacle))
+        else if (Random.Range(minRandom, maxRandom) < wallRunSpawnRate && SearchForLaneIndex(lastLane).propPlaced.Equals(PropType.Obstacle))
         {
             GameObject wall = wallunPrefabs.GetObject();
             xLanePosition = GetLanePosition(lastLane);
             wall.transform.position = new Vector3(xLanePosition + xWallOffset, wall.transform.position.y, transform.position.z);
+            StartCoroutine(CooldownToSpawnWallRun());
+        }
+    }
+
+    LaneInfo SearchForLaneIndex(int index)
+    {
+        foreach (LaneInfo lane in _lanes)
+        {
+            if (lane.index == index) return lane;
         }
 
-        StartCoroutine(CooldownToSpawnWallRun());
+        Debug.LogError("Index out of the array bounds");
+        return null;
     }
 
     IEnumerator CooldownToSpawnWallRun()
