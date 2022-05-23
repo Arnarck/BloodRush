@@ -5,30 +5,44 @@ using TMPro;
 
 public class ScoreCounter : MonoBehaviour
 {
-    int _score;
+    SpeedProgression _speedProgression;
+
+    int _score, _currentReduceRate;
     float _currentDelay, _currentMultiplier;
 
     [SerializeField] TextMeshProUGUI scoreDisplay;
+
+    [Header("Reduce Update Settings")]
+    [SerializeField] float scoreToIncreaseSpeed = 200;
+    [SerializeField] float secondScoreToIncreaseSpeed = 800;
+
+    [Tooltip("The time reduced to update the score.")]
+    [SerializeField] float timeReduced = .05f;
+
+    [Header("Update Settings")]
     [SerializeField] float startMultiplier = 1f;
-    [Tooltip("How Much the cooldown will decrease for each speed gain")][SerializeField] float delayDecrease = .02f;
-    [Tooltip("The initial cooldown time to the score update again")][SerializeField] float startDelay = .25f;
-    [SerializeField] float minDelay = .01f;
+
+    [Tooltip("The initial time until the score increase again.")]
+    [SerializeField] float timeToUpdate = .25f;
 
     public static ScoreCounter Instance { get; private set; }
 
     public int Score { get => _score; private set => _score = value; }
-    public float CurrentDelay { get => _currentDelay; private set => _currentDelay = value; }
-    public float CurrentMultiplier { get => _currentMultiplier; private set => _currentMultiplier = value; }
+    public int CurrentReduceRate { get => _currentReduceRate; private set => _currentReduceRate = value; }
+    public float CurrentTimeToUpdate { get => _currentDelay; set => _currentDelay = value; }
+    public float CurrentMultiplier { get => _currentMultiplier; set => _currentMultiplier = value; }
 
     void Awake()
     {
         Instance = this;
+        _speedProgression = FindObjectOfType<SpeedProgression>();
     }
 
     void Start()
     {
-        CurrentDelay = startDelay;
+        CurrentTimeToUpdate = timeToUpdate;
         CurrentMultiplier = startMultiplier;
+
         StartCoroutine(IncrementScore());
     }
 
@@ -37,24 +51,27 @@ public class ScoreCounter : MonoBehaviour
         while (!GameOver.Instance.IsGameOver)
         {
             Score++;
+
+            if (Score == scoreToIncreaseSpeed)
+            {
+                ReduceUpdateTime();
+                _speedProgression.IncreaseSpeed();
+            }
+
+            if (Score == secondScoreToIncreaseSpeed)
+            {
+                ReduceUpdateTime();
+                _speedProgression.IncreaseSpeed();
+            }
+
             scoreDisplay.text = Score.ToString();
-            yield return new WaitForSeconds(CurrentDelay / CurrentMultiplier);
+            yield return new WaitForSeconds(CurrentTimeToUpdate / CurrentMultiplier);
         }
     }
 
-    void DecreaseDelay()
+    void ReduceUpdateTime()
     {
-        CurrentDelay -= delayDecrease;
-    }
-
-    void SetScoreMultiplier(float multiplier)
-    {
-        CurrentMultiplier = multiplier;
-    }
-
-    void ResetScoreMultiplier()
-    {
-        CurrentMultiplier = startMultiplier;
+        CurrentTimeToUpdate -= timeReduced;
     }
 
     public void SaveHighScore()

@@ -10,6 +10,7 @@ TagManager:
   - HigherJump
   - ScoreMultiplier
   - Collectable
+  - Destroyer
   layers:
   - Default
   - TransparentFX

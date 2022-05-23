@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(BerserkerBar))]
 public class PlayerCollision : MonoBehaviour
 {
     bool _isInvincible;
+    int _bloodCollected;
 
     Fly _flyPowerup;
     HigherJump _jumpPowerup;
-    BerserkerBar _berserkerBar;
     PlayerMovement _movement;
+    BerserkerBar _berserkerBar;
+    BerserkerMode _berserkerMode;
+    ScoreMultiplier _scorePowerup;
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
 
+    [SerializeField] int transformedObstacleDamage = 2;
+    [SerializeField] int transformedLethalDamage = 5;
+    [SerializeField] TextMeshProUGUI bloodDisplay;
     [Header("Sound Effects")]
     [SerializeField] SoundManager.SoundCaster playerCaster;
     [SerializeField] SoundManager.SoundCaster collectableCaster;
@@ -28,6 +35,13 @@ public class PlayerCollision : MonoBehaviour
         _jumpPowerup = GetComponent<HigherJump>();
         _movement = GetComponent<PlayerMovement>();
         _berserkerBar = GetComponent<BerserkerBar>();
+        _berserkerMode = FindObjectOfType<BerserkerMode>();
+        _scorePowerup = GetComponent<ScoreMultiplier>();
+    }
+
+    void Start()
+    {
+        bloodDisplay.text = _bloodCollected.ToString();
     }
 
     void OnTriggerEnter(Collider other)
@@ -40,10 +54,7 @@ public class PlayerCollision : MonoBehaviour
         switch (other)
         {
             case "Collectable":
-                // Increase coin count
-                // Coins must have a property for how much they fill the berserker bar
-                ParticleManager.Play(collectableVFX);
-                _berserkerBar.ModifyCurrentValue(1);
+                CollectBlood();
                 break;
 
             case "Obstacle":
@@ -51,8 +62,16 @@ public class PlayerCollision : MonoBehaviour
 
                 ParticleManager.Play(hitVFX);
                 SoundManager.instance.PlaySound(hitSFX, playerCaster, false);
+
+                if (_berserkerMode.IsTransformed)
+                {
+                    _berserkerMode.ReduceBarValue(transformedObstacleDamage);
+                    return;
+                }
+
                 if (_berserkerBar.CurrentValue == 0)
                 {
+                    SaveData.ModifyBloodAmount(_bloodCollected);
                     GameOver.Instance.Activate();
                 }
                 else
@@ -60,14 +79,22 @@ public class PlayerCollision : MonoBehaviour
                     _berserkerBar.CurrentValue = 0;
                     _movement.MoveToPreviousLane();
                 }
-                // If player is transformed, just reduce the bar
-                // If the bar is already empty, kill the player
-                // Decreases player speed?
                 break;
 
             case "Lethal":
+                if (IsInvincible) return;
+
+                if (_berserkerMode.IsTransformed)
+                {
+                    ParticleManager.Play(hitVFX);
+                    SoundManager.instance.PlaySound(hitSFX, playerCaster, false);
+                    _berserkerMode.ReduceBarValue(transformedLethalDamage);
+                    _movement.MoveToPreviousLane();
+                    return;
+                }
+
+                SaveData.ModifyBloodAmount(_bloodCollected);
                 GameOver.Instance.Activate();
-                // Start Game Over process (enable game over screen, stop the game, deposit coins, etc.)
                 break;
 
             case "Fly":
@@ -76,7 +103,7 @@ public class PlayerCollision : MonoBehaviour
                 break;
 
             case "ScoreMultiplier":
-                // Active score multiplier
+                _scorePowerup.Activate();
                 ParticleManager.Play(powerupCollectedVFX);
                 break;
 
@@ -88,6 +115,14 @@ public class PlayerCollision : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void CollectBlood()
+    {
+        _bloodCollected++;
+        bloodDisplay.text = _bloodCollected.ToString();
+        ParticleManager.Play(collectableVFX);
+        _berserkerBar.ModifyCurrentValue(1);
     }
 
     public void ToggleInvincibility()

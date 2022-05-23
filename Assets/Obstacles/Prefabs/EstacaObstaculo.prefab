@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 368160607170314516}
   - component: {fileID: 2328568381291441415}
+  - component: {fileID: 4945194986034396211}
   m_Layer: 0
   m_Name: EstacaObstaculo
   m_TagString: Obstacle
@@ -104,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031369067021048750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13462663, y: 0, z: 4.4617653}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3560762415833471601}
@@ -124,3 +125,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.27736446, y: 1.1667932, z: 0.22486246}
   m_Center: {x: -0.066627815, y: 0.5774986, z: -0.0022146106}
+--- !u!114 &4945194986034396211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031369067021048750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d893cd8eb991e409579f6543d07825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

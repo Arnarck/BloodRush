@@ -94,7 +94,7 @@ public class PlayerGravity : MonoBehaviour
             }
             else
             {
-                SoundManager.instance.PlaySound(groundHitSFX, soundCaster, false);
+                //SoundManager.instance.PlaySound(groundHitSFX, soundCaster, false);
             }
         }
 

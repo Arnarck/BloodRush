@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 855485470535953925}
   - component: {fileID: 855485470535953924}
+  - component: {fileID: -5375483877099294309}
   m_Layer: 0
   m_Name: HigherJump Powerup
   m_TagString: HigherJump
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855485470535953923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 2141719866575003338}
@@ -45,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.5, z: 0.1}
   m_Center: {x: 0, y: 0.045, z: 0}
+--- !u!114 &-5375483877099294309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855485470535953923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d893cd8eb991e409579f6543d07825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onlyDisableForDestroyer: 0
 --- !u!1 &1653729756273296496
 GameObject:
   m_ObjectHideFlags: 0

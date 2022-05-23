@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsSliding { get => _isSliding; }
     public bool IsDodgingToRight { get => _isDodgingToRight; }
     public bool IsAutoSlideEnabled { get => _isAutoSlideEnabled; }
+    public float DodgeSpeed { get => dodgeSpeed; set => dodgeSpeed = value; }
 
     [Header("Sound Effects")]
     [SerializeField] SoundManager.SoundCaster soundCaster;

@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4056884085883506602
 Transform:
@@ -89,12 +89,13 @@ GameObject:
   m_Component:
   - component: {fileID: 881953491041948879}
   - component: {fileID: 1060986036}
+  - component: {fileID: 959285873570830774}
   m_Layer: 0
   m_Name: LapideObstaculo
   m_TagString: Lethal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &881953491041948879
 Transform:
@@ -104,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537763072929484405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2633998, y: 0, z: 4.1561737}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4056884085883506602}
@@ -124,3 +125,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8623519, y: 2.6749544, z: 1}
   m_Center: {x: 0.004930973, y: 1.284164, z: 0}
+--- !u!114 &959285873570830774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537763072929484405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d893cd8eb991e409579f6543d07825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onlyDisableForDestroyer: 0
