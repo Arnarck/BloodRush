@@ -20,6 +20,10 @@ public class BerserkerMode : MonoBehaviour
     [SerializeField] float timeToConsumeBar = .5f;
     [SerializeField] Color skyboxColor;
     [SerializeField] Color fogColor;
+    [Header("Visual Effects")]
+    [SerializeField] ParticleSystem berserkerTransformation;
+    [SerializeField] ParticleSystem darkAura;
+    [SerializeField] ParticleSystem bloodRain;
 
     public bool IsTransformed { get => _isTransformed; private set => _isTransformed = value; }
 
@@ -46,7 +50,7 @@ public class BerserkerMode : MonoBehaviour
         _scoreCounter.CurrentTimeToUpdate -= scoreTimeReduced;
         _movement.DodgeSpeed += dodgeSpeedIncreased;
         _vignette.Activate();
-
+        SetActiveVFX(true);
         RenderSettings.skybox.SetColor("_SkyTint", skyboxColor);
         RenderSettings.fogColor = fogColor;
 
@@ -82,7 +86,22 @@ public class BerserkerMode : MonoBehaviour
         _scoreCounter.CurrentTimeToUpdate += scoreTimeReduced;
         _movement.DodgeSpeed -= dodgeSpeedIncreased;
         _vignette.Deactivate();
-
+        SetActiveVFX(false);
         _speedProgression.SetSkyboxColor();
+    }
+
+    void SetActiveVFX(bool isActive)
+    {
+        berserkerTransformation.Play();
+        if (isActive)
+        {
+            darkAura.Play();
+            bloodRain.Play();
+        }
+        else
+        {
+            darkAura.Stop();
+            bloodRain.Stop();
+        }
     }
 }
