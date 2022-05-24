@@ -87,13 +87,24 @@ public class Fly : Powerup
 
     protected override IEnumerator CountdownToDeactivate()
     {
+        float lifeTime = CurrentLifetime;
+        HealthBar.gameObject.SetActive(true);
         while (IsTravelling)
         {
             yield return new WaitForEndOfFrame();
         }
 
-        yield return new WaitForSeconds(CurrentLifetime);
-        Deactivate();
+        while (IsActivated)
+        {
+            lifeTime -= Time.deltaTime;
+            lifeTime = Mathf.Clamp(lifeTime, 0f, CurrentLifetime);
+            HealthBar.value = lifeTime;
+            if (lifeTime < Mathf.Epsilon)
+            {
+                Deactivate();
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     protected override void Deactivate()
@@ -102,6 +113,8 @@ public class Fly : Powerup
         _camera.IsFlying = false;
         _gravity.IsFlying = false;
         _controller.IsVerticalInputLocked = false;
+
+        HealthBar.gameObject.SetActive(false);
 
         _disableFlyCamera = StartCoroutine(DisableFlyCamera());
     }

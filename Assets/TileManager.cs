@@ -5,7 +5,7 @@ using UnityEngine;
 public class TileManager : MonoBehaviour
 {
     [SerializeField] Transform player;
-    [SerializeField] PoolingSystem tilePrefabs;
+    [SerializeField] PoolingSystem[] tilePrefabs;
     [SerializeField] float zSpawn;
     [SerializeField] float tileLength;
     [SerializeField] int tilesOnScreen = 5;
@@ -30,7 +30,7 @@ public class TileManager : MonoBehaviour
 
     void SpawnTile()
     {
-        GameObject tile = tilePrefabs.GetObject();
+        GameObject tile = tilePrefabs[Random.Range(0, tilePrefabs.Length)].GetObject();
         tile.transform.position = transform.forward * zSpawn;
         zSpawn += tileLength;
     }

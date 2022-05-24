@@ -40,13 +40,26 @@ public class HigherJump : Powerup
 
     protected override IEnumerator CountdownToDeactivate()
     {
-        yield return new WaitForSeconds(CurrentLifetime);
-        Deactivate();
+        float lifeTime = CurrentLifetime;
+        HealthBar.gameObject.SetActive(true);
+        while (IsActivated)
+        {
+            lifeTime -= Time.deltaTime;
+            lifeTime = Mathf.Clamp(lifeTime, 0f, CurrentLifetime);
+            HealthBar.value = lifeTime;
+            if (lifeTime < Mathf.Epsilon)
+            {
+                Deactivate();
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     protected override void Deactivate()
     {
         IsActivated = false;
+        HealthBar.gameObject.SetActive(false);
         _gravity.ResetJumpForce();
         _toggleHigherJumpCamera = StartCoroutine(ToggleHigherJumpCamera(false));
     }
