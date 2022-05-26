@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Animator playerAnimator;
     [SerializeField] float laneDistance = 3f;
+    [SerializeField][Range(0f, 100f)] float deadZone = 10f;
     [SerializeField][Range(1, 7)] int laneAmount = 3;
     [SerializeField][Range(0, 6)] int startingLane = 1;
 
@@ -284,7 +285,17 @@ public class PlayerController : MonoBehaviour
         float xOffset = Mathf.Abs(_xOffset);
         float yOffset = Math.Abs(_yOffset);
 
+        //return xOffset >= yOffset && xOffset >= Screen.width / deadZone);
+
         return xOffset >= yOffset ? true : false;
+    }
+
+    bool IsMovingVertically()
+    {
+        float xOffset = Mathf.Abs(_xOffset);
+        float yOffset = Math.Abs(_yOffset);
+
+        return (yOffset > xOffset && yOffset >= Screen.height / deadZone);
     }
 
     public void SwitchLane(int desiredLane)
