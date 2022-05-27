@@ -15,6 +15,7 @@ public class PlayerCollision : MonoBehaviour
     ScoreMultiplier _scorePowerup;
 
     public bool IsInvincible { get => _isInvincible; private set => _isInvincible = value; }
+    public int BloodCollected { get => _bloodCollected; }
 
     [SerializeField] int transformedObstacleDamage = 2;
     [SerializeField] int transformedLethalDamage = 5;

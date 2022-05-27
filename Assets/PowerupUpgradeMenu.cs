@@ -123,6 +123,8 @@ public class PowerupUpgradeMenu : MonoBehaviour
             {
                 UpdatePowerupPrice(powerupName);
             }
+
+            InventoryDisplayer.Instance.UpdateBloodAmount();
         }
     }
 }

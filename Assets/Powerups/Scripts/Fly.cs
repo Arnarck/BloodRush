@@ -115,6 +115,7 @@ public class Fly : Powerup
         _controller.IsVerticalInputLocked = false;
 
         HealthBar.gameObject.SetActive(false);
+        ParticleManager.Play(batTransformationVFX);
 
         _disableFlyCamera = StartCoroutine(DisableFlyCamera());
     }
