@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Slide()
     {
-        ParticleManager.Play(slideVFX);
+        ParticleManager.Play(slideVFX, _gravity.ForwardSpeed);
         _controller.PlayerAnimator.SetBool("isRolling", true);
         SoundManager.instance.PlaySound(slideSFX, soundCaster, true);
         _isSliding = true;

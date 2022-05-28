@@ -18,6 +18,8 @@ public class WallRun : MonoBehaviour
     [Header("Effects")]
     [SerializeField] ParticleType LeftSparksVFX;
     [SerializeField] ParticleType RightSparksVFX;
+    [SerializeField] SoundType wallrunSFX;
+    [SerializeField] SoundManager.SoundCaster caster;
     [Header("Wall Run Settings")]
     [SerializeField] LayerMask wallrunLayerMask;
     [SerializeField] float yWallRunPosition;
@@ -119,11 +121,13 @@ public class WallRun : MonoBehaviour
         {
             transform.GetChild(0).transform.rotation = Quaternion.Euler(0f, 0f, 15f * _currentWallDirection);
             ParticleManager.Play(_currentSparksVFX);
+            SoundManager.instance.PlaySound(wallrunSFX, caster, true);
         }
         else
         {
             transform.GetChild(0).transform.rotation = Quaternion.identity;
             ParticleManager.Stop(_currentSparksVFX);
+            SoundManager.instance.StopSound(wallrunSFX, caster);
         }
     }
 }

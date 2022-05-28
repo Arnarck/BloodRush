@@ -24,6 +24,7 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] SoundManager.SoundCaster playerCaster;
     [SerializeField] SoundManager.SoundCaster collectableCaster;
     [SerializeField] SoundType hitSFX;
+    [SerializeField] SoundType collectSFX;
 
     [Header("Visual Effects")]
     [SerializeField] ParticleType hitVFX;
@@ -123,6 +124,7 @@ public class PlayerCollision : MonoBehaviour
         _bloodCollected++;
         bloodDisplay.text = _bloodCollected.ToString();
         ParticleManager.Play(collectableVFX);
+        SoundManager.instance.PlaySound(collectSFX, collectableCaster, false);
         _berserkerBar.ModifyCurrentValue(1);
     }
 
