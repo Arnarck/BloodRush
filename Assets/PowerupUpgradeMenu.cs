@@ -9,7 +9,6 @@ public class PowerupUpgradeMenu : MonoBehaviour
     Dictionary<SaveData.Powerup, int> _powerupPrice = new Dictionary<SaveData.Powerup, int>();
 
     [SerializeField] int maxPowerupLevel;
-    [SerializeField] TextMeshProUGUI coins;
     [Header("Display")]
     [SerializeField] PowerupDisplay[] powerupDisplay;
 
@@ -34,7 +33,6 @@ public class PowerupUpgradeMenu : MonoBehaviour
 
     void Update()
     {
-        coins.text = SaveData.GetInventoryData(SaveData.PlayerInventory.BloodAmount).ToString();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SaveData.ModifyBloodAmount(1000);
@@ -73,7 +71,17 @@ public class PowerupUpgradeMenu : MonoBehaviour
         _powerupPrice[powerupName] = GetPowerupPrice(powerupName);
         PowerupDisplay priceDisplayer = GetPowerupPriceDisplay(powerupName);
 
-        if (priceDisplayer != null)
+            
+        if (priceDisplayer == null) return;
+
+        if (SaveData.GetPowerupLevel(powerupName) >= maxPowerupLevel)
+        {
+            powerupDisplay[(int)powerupName].priceDisplay.text = "--";
+            powerupDisplay[(int)powerupName].levelDisplay.text = maxPowerupLevel.ToString();
+            powerupDisplay[(int)powerupName].buyButton.interactable = false;
+            powerupDisplay[(int)powerupName].buyButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Maxed Out";
+        }
+        else
         {
             priceDisplayer.priceDisplay.text = GetPowerupPrice(powerupName).ToString();
             priceDisplayer.levelDisplay.text = SaveData.GetPowerupLevel(powerupName).ToString();
@@ -116,8 +124,10 @@ public class PowerupUpgradeMenu : MonoBehaviour
 
             if (SaveData.GetPowerupLevel(powerupName) >= maxPowerupLevel)
             {
+                powerupDisplay[index].priceDisplay.text = "--";
+                powerupDisplay[index].levelDisplay.text = maxPowerupLevel.ToString();
                 powerupDisplay[index].buyButton.interactable = false;
-                powerupDisplay[index].buyButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Sold out";
+                powerupDisplay[index].buyButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Maxed Out";
             }
             else
             {
