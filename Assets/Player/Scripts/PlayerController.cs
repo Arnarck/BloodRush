@@ -42,7 +42,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Animator playerAnimator;
     [SerializeField] float laneDistance = 3f;
-    [SerializeField][Range(0f, 100f)] float deadZone = 10f;
+    [SerializeField][Range(0f, 1f)] float verticalDeadZone = .025f;
+    [SerializeField][Range(0f, 1f)] float horizontalDeadZone = .05f;
     [SerializeField][Range(1, 7)] int laneAmount = 3;
     [SerializeField][Range(0, 6)] int startingLane = 1;
 
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
     void ProcessJumpInput()
     {
         if (!_isTouchEnabled) return;
-        if (IsMovingHorizontally()) return;
+        if (!IsMovingVertically()) return;
         if (_yOffset < Mathf.Epsilon) return;
         if (!_gravity.IsGrounded) return;
 
@@ -254,9 +255,9 @@ public class PlayerController : MonoBehaviour
     void ProcessSlideInput()
     {
         if (!_isTouchEnabled) return;
-        if (IsMovingHorizontally()) return;
         if (!_gravity.IsGrounded) return;
         if (_wallRun.IsActivated) return;
+        if (!IsMovingVertically()) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
         StoredMovement = MovementType.None;
@@ -267,7 +268,7 @@ public class PlayerController : MonoBehaviour
     void ProcessForcedFallInput()
     {
         if (!_isTouchEnabled) return;
-        if (IsMovingHorizontally()) return;
+        if (!IsMovingVertically()) return;
         if (_gravity.IsGrounded) return;
         if (_yOffset >= Mathf.Epsilon) return;
 
@@ -285,9 +286,9 @@ public class PlayerController : MonoBehaviour
         float xOffset = Mathf.Abs(_xOffset);
         float yOffset = Math.Abs(_yOffset);
 
-        //return xOffset >= yOffset && xOffset >= Screen.width / deadZone);
+        return (xOffset >= yOffset && xOffset >= Screen.width * horizontalDeadZone);
 
-        return xOffset >= yOffset ? true : false;
+        //return xOffset >= yOffset ? true : false;
     }
 
     bool IsMovingVertically()
@@ -295,7 +296,7 @@ public class PlayerController : MonoBehaviour
         float xOffset = Mathf.Abs(_xOffset);
         float yOffset = Math.Abs(_yOffset);
 
-        return (yOffset > xOffset && yOffset >= Screen.height / deadZone);
+        return (yOffset > xOffset && yOffset >= Screen.height * verticalDeadZone);
     }
 
     public void SwitchLane(int desiredLane)
@@ -321,11 +322,11 @@ public class PlayerController : MonoBehaviour
 
         if (_movement.IsDodging)
         {
-            if ((Input.GetKeyDown(KeyCode.W) || (!IsMovingHorizontally() && _yOffset >= Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)) ) && !_gravity.IsFlying)
+            if ((Input.GetKeyDown(KeyCode.W) || (IsMovingVertically() && _yOffset >= Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)) ) && !_gravity.IsFlying)
             {
                 StoredMovement = MovementType.Jump;
             }
-            else if ((Input.GetKeyDown(KeyCode.S) || (!IsMovingHorizontally() && _yOffset <= -Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)) ) && !_gravity.IsFlying)
+            else if ((Input.GetKeyDown(KeyCode.S) || (IsMovingVertically() && _yOffset <= -Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)) ) && !_gravity.IsFlying)
             {
                 StoredMovement = MovementType.Slide;
             }
@@ -340,7 +341,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (!_gravity.IsGrounded && !_gravity.IsFlying)
         {
-            if (Input.GetKeyDown(KeyCode.W) || (!IsMovingHorizontally() && _yOffset >= Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)))
+            if (Input.GetKeyDown(KeyCode.W) || (IsMovingVertically() && _yOffset >= Mathf.Epsilon && _touch.phase.Equals(TouchPhase.Moved)))
             {
                 StoredMovement = MovementType.Jump;
             }

@@ -21,6 +21,7 @@ public class MenuNavigation : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
         SoundManager.instance.PlaySound(buttonSFX, caster, false);
     }
