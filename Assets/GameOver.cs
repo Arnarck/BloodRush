@@ -24,10 +24,10 @@ public class GameOver : MonoBehaviour
         PauseGame.Instance.SetPause(true);
         gameOverScreen.SetActive(true);
         IsGameOver = true;
+        ScoreCounter.Instance.SaveHighScore();
 
         scoreDisplay.text = ScoreCounter.Instance.Score.ToString();
         bloodDisplay.text = FindObjectOfType<PlayerCollision>().BloodCollected.ToString();
         highscoreDisplay.text = SaveData.GetInventoryData(SaveData.PlayerInventory.Highscore).ToString();
-        ScoreCounter.Instance.SaveHighScore();
     }
 }
