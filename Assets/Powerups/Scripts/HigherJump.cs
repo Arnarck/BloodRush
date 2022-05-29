@@ -19,6 +19,7 @@ public class HigherJump : Powerup
 
     public override void Activate()
     {
+        SoundManager.instance.PlaySound(sfx, caster, false);
         if (IsActivated)
         {
             StopCoroutine(CountdownRoutine);

@@ -573,7 +573,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2126724717}
-        m_MethodName: ModifyVolume
+        m_MethodName: ModifySFXVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4400,6 +4400,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d24559d5af4ef7b42b5f09385ec7003f, type: 3}
   - name: 1
     clip: {fileID: 8300000, guid: 89a40004037536e4abef986b45f6b12c, type: 3}
+  - name: 6
+    clip: {fileID: 8300000, guid: 816e1320cc1319549a95bca297c59bed, type: 3}
+  - name: 9
+    clip: {fileID: 8300000, guid: cfdad3a9c69575a4f994e9bcd0be919f, type: 3}
 --- !u!4 &1066690950
 Transform:
   m_ObjectHideFlags: 0
@@ -4522,7 +4526,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2126724717}
-        m_MethodName: ModifyVolume
+        m_MethodName: ModifyMusicVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8331,6 +8335,8 @@ MonoBehaviour:
   initialLifetime: 5
   healthBar: {fileID: 220971747}
   powerupName: 1
+  sfx: 6
+  caster: 1
   force: 20
   cameraOffset: 0.6
 --- !u!114 &1899955107
@@ -8348,6 +8354,8 @@ MonoBehaviour:
   initialLifetime: 5
   healthBar: {fileID: 1346253288}
   powerupName: 0
+  sfx: 6
+  caster: 1
   batTransformationVFX: 0
   cameraSpeed: 5
   flyPosition: 8
@@ -8404,6 +8412,8 @@ MonoBehaviour:
   initialLifetime: 5
   healthBar: {fileID: 1032358435}
   powerupName: 2
+  sfx: 6
+  caster: 1
   multiplier: 2
 --- !u!1 &1917110889
 GameObject:
@@ -9076,6 +9086,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSlider: {fileID: 70204303}
+  musicSlider: {fileID: 1070681947}
+  music: 9
+  musicCaster: 3
+  pausedMusicVolume: 0.25
   avaliableSources:
   - caster: 0
     source: {fileID: 2126724724}

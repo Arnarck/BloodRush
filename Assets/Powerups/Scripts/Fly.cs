@@ -30,6 +30,7 @@ public class Fly : Powerup
 
     public override void Activate()
     {
+        SoundManager.instance.PlaySound(sfx, caster, false);
         if (IsActivated)
         {
             StopCoroutine(CountdownRoutine);

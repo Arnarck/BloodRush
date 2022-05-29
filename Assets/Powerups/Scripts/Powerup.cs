@@ -18,6 +18,8 @@ public abstract class Powerup : MonoBehaviour
     [SerializeField] float initialLifetime;
     [SerializeField] Slider healthBar;
     [SerializeField] SaveData.Powerup powerupName;
+    [SerializeField] protected SoundType sfx;
+    [SerializeField] protected SoundManager.SoundCaster caster;
 
     void Start()
     {
