@@ -24,6 +24,9 @@ public class BerserkerMode : MonoBehaviour
     [SerializeField] ParticleSystem berserkerTransformation;
     [SerializeField] ParticleSystem darkAura;
     [SerializeField] ParticleSystem bloodRain;
+    [Header("Sound Effect")]
+    [SerializeField] SoundType sfx;
+    [SerializeField] SoundManager.SoundCaster caster;
 
     public bool IsTransformed { get => _isTransformed; private set => _isTransformed = value; }
 
@@ -45,6 +48,7 @@ public class BerserkerMode : MonoBehaviour
 
         _isTransformed = true;
 
+        SoundManager.instance.PlaySound(sfx, caster, false);
         _gravity.ForwardSpeed += speedIncreased;
         _propGenerator.TimeToSpawn -= spawnTimeReduced;
         _scoreCounter.CurrentTimeToUpdate -= scoreTimeReduced;

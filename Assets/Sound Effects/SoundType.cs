@@ -8,5 +8,6 @@
     WallRun,
     PowerupCollected,
     Hit,
-    CollectableCollected
+    CollectableCollected,
+    Music
 }

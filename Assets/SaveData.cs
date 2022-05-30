@@ -14,7 +14,6 @@ public static class SaveData
         Fly,
         HigherJump,
         ScoreMultiplier,
-        Magnet
     }
 
     public enum SkinName

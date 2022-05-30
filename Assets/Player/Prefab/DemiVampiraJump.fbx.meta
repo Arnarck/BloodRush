@@ -1,0 +1,669 @@
+fileFormatVersion: 2
+guid: e3ac66f5b6880544480408aa0cacf828
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 3328663873988369927
+    second: Demi Rig|Jump-bake
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Demi Rig|Jump-bake
+      takeName: Demi Rig|Jump-bake
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: DemiVampiraJump(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Suzanne
+      parentName: DemiVampiraJump(Clone)
+      position: {x: 0.06717007, y: -0.0031346306, z: -0.024629027}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Vampirona
+      parentName: DemiVampiraJump(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Demi Rig
+      parentName: DemiVampiraJump(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: RaizMaster
+      parentName: Demi Rig
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -6.123234e-17, y: -0, z: 1, w: -3.3087225e-24}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: RaizRotacao
+      parentName: RaizMaster
+      position: {x: -0, y: 0, z: 0.000036578364}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: MASTER
+      parentName: RaizRotacao
+      position: {x: 0.0000030789206, y: -0.00015555325, z: 0.008775159}
+      rotation: {x: 6.123234e-17, y: -6.33128e-40, z: -1, w: 7.031035e-24}
+      scale: {x: 1, y: 0.99999964, z: 0.9999998}
+    - name: Pelvis
+      parentName: MASTER
+      position: {x: 6.9849187e-12, y: 1.4901161e-10, z: 4.0978193e-10}
+      rotation: {x: 0.7656814, y: 0.0000000027939677, z: -0.010569348, w: -0.64313316}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000005}
+    - name: Coxa.L
+      parentName: Pelvis
+      position: {x: -0.00076352403, y: 0.000792297, z: -0.000008425065}
+      rotation: {x: 0.10812435, y: 0.0073106973, z: -0.007633135, w: 0.9940812}
+      scale: {x: 0.99999976, y: 1.0000007, z: 1.0000001}
+    - name: AltoJoelho.L
+      parentName: Coxa.L
+      position: {x: -1.0681105e-10, y: 0.0023851702, z: 8.934876e-11}
+      rotation: {x: -0.16721939, y: 4.656613e-10, z: -0.000000002910383, w: 0.9859198}
+      scale: {x: 1, y: 1.0000004, z: 1.0000005}
+    - name: BaixoJoelho.L
+      parentName: AltoJoelho.L
+      position: {x: -1.7462298e-12, y: 0.0018946175, z: 2.4883774e-11}
+      rotation: {x: 0.25165507, y: -4.899875e-11, z: -8.1099893e-10, w: 0.96781707}
+      scale: {x: 0.99999976, y: 0.99999875, z: 0.99999994}
+    - name: BasePe.L
+      parentName: BaixoJoelho.L
+      position: {x: -2.4956533e-11, y: 0.0023643395, z: -3.8417054e-11}
+      rotation: {x: -0.40358517, y: -0.0000000020023316, z: 1.6083244e-10, w: 0.9149421}
+      scale: {x: 1, y: 0.9999993, z: 1.0000007}
+    - name: Pe.L
+      parentName: BasePe.L
+      position: {x: -1.3877787e-19, y: 0.0015971715, z: 1.8066795e-11}
+      rotation: {x: -0.44125244, y: 0.0000000016515367, z: 0.0000000014679663, w: 0.8973831}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Pe.L_end
+      parentName: Pe.L
+      position: {x: -0, y: 0.0011726981, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Coxa.R
+      parentName: Pelvis
+      position: {x: 0.0007609672, y: 0.0007715663, z: -0.000033105316}
+      rotation: {x: 0.10812435, y: 0.007310698, z: -0.0076331347, w: 0.9940812}
+      scale: {x: 0.99999976, y: 1.0000007, z: 0.99999994}
+    - name: AltoJoelho.R
+      parentName: Coxa.R
+      position: {x: 1.268927e-10, y: 0.0023851688, z: 1.3460522e-10}
+      rotation: {x: -0.16721945, y: -4.6566134e-10, z: -0.000000004190952, w: 0.9859197}
+      scale: {x: 1.0000001, y: 0.99999964, z: 1.0000006}
+    - name: BaixoJoelho.R
+      parentName: AltoJoelho.R
+      position: {x: -9.6042636e-12, y: 0.0018946179, z: 1.02591e-10}
+      rotation: {x: 0.25165513, y: -3.1984843e-10, z: -2.5087277e-10, w: 0.967817}
+      scale: {x: 0.99999964, y: 0.9999999, z: 1}
+    - name: BasePe.R
+      parentName: BaixoJoelho.R
+      position: {x: -5.449692e-11, y: 0.0023643405, z: -2.05182e-11}
+      rotation: {x: -0.4035851, y: -0.0000000013562365, z: 1.10178255e-10, w: 0.9149422}
+      scale: {x: 0.99999994, y: 1.0000005, z: 0.9999997}
+    - name: Pe.R
+      parentName: BasePe.R
+      position: {x: 7.4505804e-11, y: 0.0015971715, z: 3.6520818e-11}
+      rotation: {x: -0.44125247, y: 0.0000000022137316, z: 0.0000000012840098, w: 0.897383}
+      scale: {x: 1, y: 1.0000004, z: 0.99999994}
+    - name: Pe.R_end
+      parentName: Pe.R
+      position: {x: -0, y: 0.0011726981, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barriga
+      parentName: MASTER
+      position: {x: -5.3505377e-19, y: 0, z: -1.862645e-10}
+      rotation: {x: 0.6064139, y: -2.3283064e-10, z: 0.0046945345, w: 0.7951353}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Peito
+      parentName: Barriga
+      position: {x: 4.6566128e-12, y: 0.0015501071, z: -1.5967998e-10}
+      rotation: {x: 0.23366189, y: -0.0036402827, z: -0.0029642864, w: 0.9723066}
+      scale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
+    - name: Pescoco
+      parentName: Peito
+      position: {x: 1.3889555e-13, y: 0.0016863539, z: 2.9800423e-10}
+      rotation: {x: 0.024910998, y: -4.6566123e-10, z: 2.9103828e-10, w: 0.99968964}
+      scale: {x: 1, y: 1, z: 1}
+    - name: CabecaBase
+      parentName: Pescoco
+      position: {x: 9.132416e-13, y: 0.00080090447, z: -5.960522e-10}
+      rotation: {x: -0.16721226, y: 4.2687742e-11, z: 2.2697821e-11, w: 0.9859209}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: CabecaCentral
+      parentName: CabecaBase
+      position: {x: -1.5193615e-12, y: 0.0011347301, z: -2.6077285e-10}
+      rotation: {x: 0.000000031560305, y: 0.677321, z: 0.7356876, w: 0.000000029416459}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: CabecaCentral_end
+      parentName: CabecaCentral
+      position: {x: -0, y: 0.0012832892, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cabeca.L
+      parentName: CabecaBase
+      position: {x: -1.5193615e-12, y: 0.0011347301, z: -2.6077285e-10}
+      rotation: {x: -0.27523547, y: 0.4193138, z: 0.45527083, w: 0.7356289}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: Orelha.L
+      parentName: Cabeca.L
+      position: {x: 7.45058e-10, y: 0.0014015576, z: -2.2351741e-10}
+      rotation: {x: 0.25342205, y: -0.3387364, z: -0.3027807, w: 0.85402507}
+      scale: {x: 1, y: 1, z: 1}
+    - name: OrelhaAlta.L
+      parentName: Orelha.L
+      position: {x: -7.45058e-10, y: 0.001271556, z: 2.9802322e-10}
+      rotation: {x: 0.19130665, y: -0.18601929, z: -0.14950016, w: 0.9520758}
+      scale: {x: 0.99999994, y: 0.99999976, z: 1}
+    - name: OrelhaAlta.L_end
+      parentName: OrelhaAlta.L
+      position: {x: -0, y: 0.0013364996, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cabeca.R
+      parentName: CabecaBase
+      position: {x: -1.5193615e-12, y: 0.0011347301, z: -2.6077285e-10}
+      rotation: {x: -0.27523547, y: -0.4193138, z: -0.45527086, w: 0.7356289}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: Orelha.R
+      parentName: Cabeca.R
+      position: {x: -4.4703483e-10, y: 0.001401558, z: -7.4505804e-11}
+      rotation: {x: 0.253422, y: 0.33873636, z: 0.30278066, w: 0.8540251}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: OrelhaAlta.R.
+      parentName: Orelha.R
+      position: {x: 5.9604643e-10, y: 0.0012715551, z: 2.6077032e-10}
+      rotation: {x: 0.19130671, y: 0.18601935, z: 0.14950024, w: 0.9520758}
+      scale: {x: 0.99999994, y: 0.9999997, z: 0.9999997}
+    - name: OrelhaAlta.R._end
+      parentName: OrelhaAlta.R.
+      position: {x: -0, y: 0.0013364996, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Clavicula.L
+      parentName: Peito
+      position: {x: -0.00018993745, y: 0.0016879458, z: 0.0011149343}
+      rotation: {x: -0.59989756, y: 0.42996365, z: 0.3122053, w: 0.5981488}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: Braco.L
+      parentName: Clavicula.L
+      position: {x: -0.0001878007, y: 0.001271587, z: -0.00033749567}
+      rotation: {x: 0.114761144, y: -0.076796085, z: -0.21540385, w: -0.9667127}
+      scale: {x: 1.0000004, y: 0.99999994, z: 0.99999976}
+    - name: AntiBraco.L
+      parentName: Braco.L
+      position: {x: 1.7695129e-10, y: 0.0017794293, z: -4.0978193e-10}
+      rotation: {x: 0.013756869, y: 0.0044054757, z: 0.038876403, w: 0.9991396}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000005}
+    - name: Pulso.L
+      parentName: AntiBraco.L
+      position: {x: -1.4901161e-10, y: 0.0021419805, z: -5.9604643e-10}
+      rotation: {x: -0.08168229, y: 0.0987473, z: 0.07117386, w: -0.9891973}
+      scale: {x: 0.99999976, y: 0.99999994, z: 1}
+    - name: BaseMao2.L
+      parentName: Pulso.L
+      position: {x: -0.00039917923, y: 0.0005953348, z: 0.000030525996}
+      rotation: {x: -0.0109196445, y: 0.01609574, z: 0.07062195, w: 0.9973135}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000002}
+    - name: BaseIndicador.L
+      parentName: BaseMao2.L
+      position: {x: 4.4703483e-10, y: 0.00047159204, z: -1.4901161e-10}
+      rotation: {x: -0.019884136, y: 0.01987079, z: -0.030138852, w: 0.9991504}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: Indicador1.L
+      parentName: BaseIndicador.L
+      position: {x: 3.352761e-10, y: 0.00013845324, z: 0}
+      rotation: {x: -0.015538927, y: 0.015935095, z: 0.000021255511, w: 0.9997523}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1.0000002}
+    - name: Indicador2.L
+      parentName: Indicador1.L
+      position: {x: 1.5832484e-10, y: 0.00013844698, z: -1.4901161e-10}
+      rotation: {x: -0.001600649, y: 0.001351877, z: 0.019667108, w: -0.99980444}
+      scale: {x: 0.99999994, y: 0.9999998, z: 1.0000001}
+    - name: Indicador3.L
+      parentName: Indicador2.L
+      position: {x: 3.9115547e-10, y: 0.00018819571, z: 7.0314854e-10}
+      rotation: {x: -0.0024474096, y: 0.0024745127, z: -0.0054029534, w: 0.99997944}
+      scale: {x: 1.0000005, y: 1.0000001, z: 0.9999999}
+    - name: Indicador4.L
+      parentName: Indicador3.L
+      position: {x: 1.4901161e-10, y: 0.00015609614, z: -3.7252902e-11}
+      rotation: {x: -0.0048384652, y: 0.0044377362, z: 0.017445201, w: -0.99982625}
+      scale: {x: 1.0000005, y: 1.0000002, z: 1.0000005}
+    - name: Indicador5.L
+      parentName: Indicador4.L
+      position: {x: -1.11758706e-10, y: 0.00017548069, z: -9.313226e-10}
+      rotation: {x: 0.0026475682, y: -0.002462657, z: -0.0045414944, w: 0.99998313}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1.0000007}
+    - name: Indicador5.L_end
+      parentName: Indicador5.L
+      position: {x: -0, y: 0.00010667209, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BaseMao1.L
+      parentName: Pulso.L
+      position: {x: -2.9802322e-10, y: 0.00056245073, z: -8.1956386e-10}
+      rotation: {x: -0.0012483, y: -0.004154868, z: -0.065262385, w: 0.99785876}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: BaseDedos.L
+      parentName: BaseMao1.L
+      position: {x: 3.72529e-10, y: 0.00049689686, z: 2.2351741e-10}
+      rotation: {x: -0.019270262, y: 0.021721795, z: 0.072434865, w: 0.9969504}
+      scale: {x: 0.9999995, y: 1.0000001, z: 0.9999997}
+    - name: Dedos1.L
+      parentName: BaseDedos.L
+      position: {x: 1.4901161e-10, y: 0.00019070483, z: -2.9453076e-10}
+      rotation: {x: -0.017394697, y: 0.017694393, z: 0.022657873, w: 0.99943537}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000002}
+    - name: Dedos2.L
+      parentName: Dedos1.L
+      position: {x: 1.4901161e-10, y: 0.0001945094, z: 8.1956386e-10}
+      rotation: {x: 0.013004229, y: -0.013329692, z: -0.026525091, w: 0.99947464}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1.0000001}
+    - name: Dedos3.L
+      parentName: Dedos2.L
+      position: {x: 1.4901161e-10, y: 0.00015475777, z: 7.4505804e-11}
+      rotation: {x: -0.018217474, y: 0.017725771, z: 0.010811002, w: 0.9996185}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000001}
+    - name: Dedos4.L
+      parentName: Dedos3.L
+      position: {x: 3.72529e-10, y: 0.00015671893, z: 2.9802322e-10}
+      rotation: {x: 0.00997263, y: -0.009691294, z: 0.0068913926, w: 0.9998796}
+      scale: {x: 1.0000002, y: 0.9999996, z: 1.0000001}
+    - name: Dedos5.L
+      parentName: Dedos4.L
+      position: {x: -7.4505804e-11, y: 0.00016529961, z: -4.1909515e-10}
+      rotation: {x: -0.004940747, y: 0.005192641, z: 0.015812121, w: 0.9998493}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000002}
+    - name: Dedos6.L
+      parentName: Dedos5.L
+      position: {x: -4.4703483e-10, y: 0.00011937155, z: -1.11758706e-10}
+      rotation: {x: 0.04443883, y: -0.045145355, z: 0.0069717225, w: 0.9979672}
+      scale: {x: 1.0000005, y: 0.9999998, z: 1.0000005}
+    - name: Dedos6.L_end
+      parentName: Dedos6.L
+      position: {x: -0, y: 0.000063464744, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BaseMao3.L
+      parentName: Pulso.L
+      position: {x: -2.9802322e-10, y: 0.00056245073, z: -8.1956386e-10}
+      rotation: {x: 0.012648699, y: -0.45912877, z: 0.03258231, w: 0.88768196}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000001}
+    - name: BaseDedao.L
+      parentName: BaseMao3.L
+      position: {x: -1.862645e-10, y: 0.0005175725, z: 2.9802322e-10}
+      rotation: {x: -0.0044946545, y: -0.95494163, z: 0.023403404, w: -0.29583558}
+      scale: {x: 0.99999994, y: 1.0000007, z: 1}
+    - name: Dedao1.L
+      parentName: BaseDedao.L
+      position: {x: -2.9802322e-10, y: 0.0002166875, z: 7.264316e-10}
+      rotation: {x: 0.0052078315, y: 0.36733714, z: -0.035727043, w: 0.92938685}
+      scale: {x: 1.0000011, y: 1, z: 1.0000006}
+    - name: Dedao2.L
+      parentName: Dedao1.L
+      position: {x: -0, y: 0.000078945566, z: -2.2351741e-10}
+      rotation: {x: 0.029072216, y: -0.0788385, z: 0.018100932, w: 0.996299}
+      scale: {x: 1.0000005, y: 1, z: 0.99999994}
+    - name: Dedao3.L
+      parentName: Dedao2.L
+      position: {x: -7.4505804e-11, y: 0.00010577524, z: 8.754432e-10}
+      rotation: {x: 0.03046726, y: 0.06825745, z: -0.044643015, w: 0.99620265}
+      scale: {x: 0.9999999, y: 1.0000006, z: 1.0000004}
+    - name: Dedao4.L
+      parentName: Dedao3.L
+      position: {x: -7.4505804e-11, y: 0.00011829607, z: 9.313226e-10}
+      rotation: {x: 0.027679356, y: -0.14219134, z: 0.05438349, w: 0.9879564}
+      scale: {x: 0.9999999, y: 1.0000001, z: 0.99999976}
+    - name: Dedao5.L
+      parentName: Dedao4.L
+      position: {x: -2.9802322e-10, y: 0.00012659181, z: 1.1408701e-10}
+      rotation: {x: 0.030001413, y: 0.04557159, z: -0.04233065, w: 0.99761283}
+      scale: {x: 1.0000007, y: 1.0000001, z: 1.0000005}
+    - name: Dedao5.L_end
+      parentName: Dedao5.L
+      position: {x: -0, y: 0.00012127345, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Clavicula.R
+      parentName: Peito
+      position: {x: 0.00018993721, y: 0.0016879472, z: 0.0011149343}
+      rotation: {x: -0.5998973, y: -0.42996413, z: -0.31220502, w: 0.5981489}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: Braco.R
+      parentName: Clavicula.R
+      position: {x: 0.00018780056, y: 0.001271587, z: -0.00033749617}
+      rotation: {x: 0.11476125, y: 0.07679617, z: 0.21540394, w: -0.96671265}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000004}
+    - name: AntiBraco.R
+      parentName: Braco.R
+      position: {x: 2.2351741e-10, y: 0.0017794294, z: -3.7252902e-11}
+      rotation: {x: 0.013757117, y: -0.004405223, z: -0.038876075, w: 0.9991397}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: Pulso.R
+      parentName: AntiBraco.R
+      position: {x: 3.7252902e-11, y: 0.0021419795, z: -1.2107193e-10}
+      rotation: {x: -0.08168208, y: -0.098747656, z: -0.07117368, w: -0.98919725}
+      scale: {x: 0.9999996, y: 0.99999946, z: 0.9999997}
+    - name: BaseMao2.R
+      parentName: Pulso.R
+      position: {x: 0.00039917923, y: 0.0005953353, z: 0.000030527113}
+      rotation: {x: -0.010919479, y: -0.016095798, z: -0.07062191, w: 0.9973135}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000001}
+    - name: BaseIndicador.R
+      parentName: BaseMao2.R
+      position: {x: 2.2351741e-10, y: 0.00047159314, z: 0}
+      rotation: {x: -0.019884167, y: -0.019870725, z: 0.030138955, w: 0.99915034}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+    - name: Indicador1.R
+      parentName: BaseIndicador.R
+      position: {x: -7.636845e-10, y: 0.00013845376, z: 2.9802322e-10}
+      rotation: {x: 0.015538981, y: 0.015935061, z: 0.000021383281, w: -0.99975234}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000001}
+    - name: Indicador2.R
+      parentName: Indicador1.R
+      position: {x: -8.032657e-11, y: 0.0001384469, z: 4.1443854e-10}
+      rotation: {x: 0.0016006684, y: 0.0013517669, z: 0.019667322, w: 0.9998044}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: Indicador3.R
+      parentName: Indicador2.R
+      position: {x: 7.543713e-10, y: 0.00018819554, z: 1.6530975e-10}
+      rotation: {x: -0.0024473672, y: -0.0024744605, z: 0.0054029273, w: 0.99997944}
+      scale: {x: 1.0000001, y: 0.9999997, z: 1.0000001}
+    - name: Indicador4.R
+      parentName: Indicador3.R
+      position: {x: -7.636845e-10, y: 0.00015609628, z: -5.587935e-10}
+      rotation: {x: -0.004838439, y: -0.004437736, z: -0.017445149, w: -0.9998263}
+      scale: {x: 0.99999964, y: 0.9999999, z: 0.99999994}
+    - name: Indicador5.R
+      parentName: Indicador4.R
+      position: {x: -5.5879353e-11, y: 0.00017548054, z: -1.4901161e-10}
+      rotation: {x: 0.0026474418, y: 0.002462713, z: 0.0045414437, w: 0.99998313}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: Indicador5.R_end
+      parentName: Indicador5.R
+      position: {x: -0, y: 0.00010667209, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BaseMao1.R
+      parentName: Pulso.R
+      position: {x: -1.4901161e-10, y: 0.0005624513, z: 1.4901161e-10}
+      rotation: {x: -0.0012481209, y: 0.0041548377, z: 0.06526265, w: 0.9978587}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: BaseDedos.R
+      parentName: BaseMao1.R
+      position: {x: 2.9802322e-10, y: 0.00049689726, z: -4.4703483e-10}
+      rotation: {x: -0.019270312, y: -0.021721564, z: -0.072434954, w: 0.9969504}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000004}
+    - name: Dedos1.R
+      parentName: BaseDedos.R
+      position: {x: 2.9802322e-10, y: 0.00019070528, z: -1.4901161e-10}
+      rotation: {x: -0.017394686, y: -0.017694695, z: -0.022657907, w: 0.9994353}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1}
+    - name: Dedos2.R
+      parentName: Dedos1.R
+      position: {x: -3.0733643e-10, y: 0.00019450932, z: -2.4214386e-10}
+      rotation: {x: 0.013004208, y: 0.013329736, z: 0.026525138, w: 0.9994747}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1}
+    - name: Dedos3.R
+      parentName: Dedos2.R
+      position: {x: -6.0768796e-10, y: 0.00015475773, z: 4.0978193e-10}
+      rotation: {x: -0.018217528, y: -0.017725678, z: -0.010811105, w: 0.99961853}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: Dedos4.R
+      parentName: Dedos3.R
+      position: {x: 4.4703483e-10, y: 0.00015671841, z: 2.2351741e-10}
+      rotation: {x: 0.009972661, y: 0.009691127, z: -0.006891441, w: 0.9998796}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999996}
+    - name: Dedos5.R
+      parentName: Dedos4.R
+      position: {x: -1.8626451e-11, y: 0.00016529947, z: -3.7252902e-11}
+      rotation: {x: -0.004940846, y: -0.0051924926, z: -0.015812147, w: 0.9998493}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: Dedos6.R
+      parentName: Dedos5.R
+      position: {x: -1.862645e-10, y: 0.000119372475, z: -1.4901161e-10}
+      rotation: {x: 0.044438872, y: 0.045145314, z: -0.0069716945, w: 0.99796724}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1}
+    - name: Dedos6.R_end
+      parentName: Dedos6.R
+      position: {x: -0, y: 0.000063464744, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: BaseMao3.R
+      parentName: Pulso.R
+      position: {x: -1.4901161e-10, y: 0.0005624513, z: 1.4901161e-10}
+      rotation: {x: -0.012649295, y: -0.45913067, z: 0.032584213, w: -0.8876809}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000001}
+    - name: BaseDedao.R
+      parentName: BaseMao3.R
+      position: {x: -3.72529e-10, y: 0.0005175734, z: -4.4703483e-10}
+      rotation: {x: 0.0044935984, y: -0.9549414, z: 0.023403082, w: 0.29583618}
+      scale: {x: 0.9999999, y: 1.0000007, z: 1.0000002}
+    - name: Dedao1.R
+      parentName: BaseDedao.R
+      position: {x: -5.9604643e-10, y: 0.00021668806, z: 3.7252902e-11}
+      rotation: {x: 0.005204301, y: -0.3673376, z: 0.035711654, w: 0.92938733}
+      scale: {x: 1.0000008, y: 0.9999999, z: 1.0000006}
+    - name: Dedao2.R
+      parentName: Dedao1.R
+      position: {x: -1.862645e-10, y: 0.000078945384, z: 1.7695129e-10}
+      rotation: {x: 0.029072046, y: 0.07883852, z: -0.018101016, w: 0.99629897}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1.0000002}
+    - name: Dedao3.R
+      parentName: Dedao2.R
+      position: {x: -3.72529e-10, y: 0.00010577634, z: 5.9604643e-10}
+      rotation: {x: 0.030467337, y: -0.068257384, z: 0.044643305, w: 0.99620265}
+      scale: {x: 0.99999946, y: 0.99999946, z: 0.9999998}
+    - name: Dedao4.R
+      parentName: Dedao3.R
+      position: {x: -6.705522e-10, y: 0.00011829596, z: -2.6077032e-10}
+      rotation: {x: 0.027679399, y: 0.14219141, z: -0.054383546, w: 0.98795646}
+      scale: {x: 1, y: 0.99999994, z: 0.99999964}
+    - name: Dedao5.R
+      parentName: Dedao4.R
+      position: {x: 3.72529e-10, y: 0.00012658956, z: 2.9802322e-10}
+      rotation: {x: 0.030001394, y: -0.04557175, z: 0.042330705, w: 0.99761283}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
+    - name: Dedao5.R_end
+      parentName: Dedao5.R
+      position: {x: -0, y: 0.00012127345, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: AsaBase.L
+      parentName: Peito
+      position: {x: 1.3889555e-13, y: 0.0016863539, z: 2.9800423e-10}
+      rotation: {x: 0.8991349, y: -0.25502583, z: -0.20766774, w: -0.28877762}
+      scale: {x: 0.99999976, y: 1.0000002, z: 1.0000001}
+    - name: Asa1.L
+      parentName: AsaBase.L
+      position: {x: 5.2154064e-10, y: 0.0007157262, z: -2.2351741e-10}
+      rotation: {x: -0.15597315, y: 0.087330624, z: -0.07421311, w: -0.9810903}
+      scale: {x: 0.99999994, y: 0.99999976, z: 0.99999976}
+    - name: Asa2.L
+      parentName: Asa1.L
+      position: {x: 1.11758706e-10, y: 0.002345368, z: -5.378388e-10}
+      rotation: {x: 0.06433381, y: -0.04317307, z: 0.06783612, w: 0.9946836}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: Asa3.L
+      parentName: Asa2.L
+      position: {x: 7.4505804e-11, y: 0.001686589, z: -4.4703483e-10}
+      rotation: {x: 0.09410826, y: -0.0636823, z: 0.10406444, w: 0.98805815}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1}
+    - name: Asa3.L_end
+      parentName: Asa3.L
+      position: {x: -0, y: 0.0018705217, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: AsaBase.R
+      parentName: Peito
+      position: {x: 4.6230772e-10, y: 0.0016863538, z: -1.8974266e-14}
+      rotation: {x: 0.8991349, y: 0.25502577, z: 0.20766765, w: -0.2887776}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1.0000004}
+    - name: Asa1.R
+      parentName: AsaBase.R
+      position: {x: 1.11758706e-10, y: 0.00071572635, z: -6.426126e-10}
+      rotation: {x: -0.1559732, y: -0.08733071, z: 0.0742132, w: -0.98109025}
+      scale: {x: 1.0000001, y: 0.99999964, z: 0.9999997}
+    - name: Asa2.R
+      parentName: Asa1.R
+      position: {x: -3.7252902e-11, y: 0.0023453683, z: 6.9965606e-10}
+      rotation: {x: 0.0643338, y: 0.043173105, z: -0.06783617, w: 0.9946837}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Asa3.R
+      parentName: Asa2.R
+      position: {x: 5.820766e-11, y: 0.0016865887, z: 5.2386895e-10}
+      rotation: {x: 0.09410812, y: 0.06368219, z: -0.104064345, w: 0.98805815}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Asa3.R_end
+      parentName: Asa3.R
+      position: {x: -0, y: 0.0018705217, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKPernaControle.R
+      parentName: RaizMaster
+      position: {x: -0.00076241593, y: -0.000094260686, z: 0.0024841204}
+      rotation: {x: 6.1232356e-17, y: -0.00000008940697, z: -1, w: -1.39532e-23}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: PolePerna.R
+      parentName: IKPernaControle.R
+      position: {x: -1.3877787e-19, y: -0.0035866292, z: 0.0004474617}
+      rotation: {x: 0.7071067, y: -0.00000023040465, z: -0.00000023040462, w: 0.7071068}
+      scale: {x: 1, y: 0.99999964, z: 0.99999964}
+    - name: PolePerna.R_end
+      parentName: PolePerna.R
+      position: {x: -0, y: 0.0010441012, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKPernaControle.L
+      parentName: RaizMaster
+      position: {x: 0.00076241593, y: -0.000094260686, z: 0.0024841204}
+      rotation: {x: 6.123235e-17, y: -0.00000008940697, z: -1, w: -9.3986805e-24}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: PolePerna.L
+      parentName: IKPernaControle.L
+      position: {x: -1.3877787e-19, y: -0.0035866292, z: 0.0004474617}
+      rotation: {x: 0.7071067, y: 0.00000023040465, z: 0.00000023040462, w: 0.7071068}
+      scale: {x: 1, y: 0.99999964, z: 0.99999964}
+    - name: PolePerna.L_end
+      parentName: PolePerna.L
+      position: {x: -0, y: 0.0010441012, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

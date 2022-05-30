@@ -20,7 +20,6 @@ public class PlayerGravity : MonoBehaviour
 
     [Header("Sound Effects")]
     [SerializeField] SoundManager.SoundCaster soundCaster;
-    [SerializeField] SoundType groundHitSFX;
     [SerializeField] SoundType forcedFallSFX;
 
     [Header("Visual Effects")]
@@ -30,6 +29,7 @@ public class PlayerGravity : MonoBehaviour
     [SerializeField] LayerMask laneLayerMask;
     [SerializeField] float gravityForce = -9.81f;
     [SerializeField] float gravityScale = 1f;
+    [SerializeField] float raycastExtraHeight = .01f;
 
     [Header("Player Movement Settings")]
     [SerializeField] float jumpForce = 10f;
@@ -74,12 +74,11 @@ public class PlayerGravity : MonoBehaviour
     {
         Color rayColor;
         bool hasFoundColliders, previousIsGrounded = IsGrounded;
-        float extraHeight = .01f;
 
-        hasFoundColliders = Physics.Raycast(_collider.bounds.center, Vector3.down, _collider.bounds.extents.y + extraHeight, laneLayerMask);
+        hasFoundColliders = Physics.Raycast(_collider.bounds.center, Vector3.down, _collider.bounds.extents.y + raycastExtraHeight, laneLayerMask);
 
         rayColor = hasFoundColliders ? Color.green : Color.red;
-        Debug.DrawRay(_collider.bounds.center, Vector3.down * (_collider.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(_collider.bounds.center, Vector3.down * (_collider.bounds.extents.y + raycastExtraHeight), rayColor);
 
         IsGrounded = hasFoundColliders;
 
