@@ -11,6 +11,7 @@ public class WallRun : MonoBehaviour
 
     PlayerGravity _gravity;
     CapsuleCollider _collider;
+    PlayerController _controller;
 
     public bool IsActivated { get => _isActivated; private set => _isActivated = value; }
     public bool IsTravelling { get => _isTravelling; private set => _isTravelling = value; }
@@ -31,6 +32,7 @@ public class WallRun : MonoBehaviour
     {
         _gravity = GetComponent<PlayerGravity>();
         _collider = GetComponent<CapsuleCollider>();
+        _controller = GetComponent<PlayerController>();
     }
 
     public void Activate(int wallDirection)
@@ -119,15 +121,15 @@ public class WallRun : MonoBehaviour
 
         if (isActivated)
         {
-            transform.GetChild(0).transform.rotation = Quaternion.Euler(0f, 0f, 15f * _currentWallDirection);
             ParticleManager.Play(_currentSparksVFX);
             SoundManager.instance.PlaySound(wallrunSFX, caster, true);
+            _controller.PlayerAnimator.SetBool("isRolling", true);
         }
         else
         {
-            transform.GetChild(0).transform.rotation = Quaternion.identity;
             ParticleManager.Stop(_currentSparksVFX);
             SoundManager.instance.StopSound(wallrunSFX, caster);
+            _controller.PlayerAnimator.SetBool("isRolling", false);
         }
     }
 }
